@@ -2,22 +2,14 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["referentialIntegrity"]
 }
 
 datasource db {
-  provider = "sqlite"
-  // NOTE: When using postgresql, mysql or sqlserver, uncomment the @db.Text annotations in model Account below
-  // Further reading:
-  // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
-  // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string
-  url      = env("DATABASE_URL")
-}
-
-model Example {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
 }
 
 // Necessary for Next auth
@@ -27,16 +19,17 @@ model Account {
   type              String
   provider          String
   providerAccountId String
-  refresh_token     String? // @db.Text
-  access_token      String? // @db.Text
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
   expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String? // @db.Text
+  id_token          String? @db.Text
   session_state     String?
   user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
+  @@index([userId])
 }
 
 model Session {
@@ -45,22 +38,95 @@ model Session {
   userId       String
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime?
-  image         String?
-  accounts      Account[]
-  sessions      Session[]
+  id                    String      @id @default(cuid())
+  name                  String?
+  email                 String?     @unique
+  emailVerified         DateTime?
+  image                 String?
+  narutomakis           Decimal?    @default(0) @db.Decimal(13, 10)
+  maxNumberOfCharacters Int?        @default(3)
+  currentCharacter      String?
+  birthdate             DateTime?
+  createdAt             DateTime    @default(now())
+  accounts              Account[]
+  sessions              Session[]
+  Character             Character[]
 }
 
-model VerificationToken {
-  identifier String
-  token      String   @unique
-  expires    DateTime
+// auto increment Section id starting from 1
+model Section {
+  id              Int       @id @default(autoincrement())
+  title           String
+  description     String?
+  parentSectionId Int?
+  parentSection   Section?  @relation(name: "SectionTree", fields: [parentSectionId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  childSections   Section[] @relation(name: "SectionTree")
+  Topic           Topic[]
 
-  @@unique([identifier, token])
+  @@index([parentSectionId])
+}
+
+model Topic {
+  id              Int       @id @default(autoincrement())
+  title           String
+  parentSectionId Int
+  parentSection   Section   @relation(fields: [parentSectionId], references: [id], onDelete: Cascade)
+  characterId     Int
+  character       Character @relation(fields: [characterId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  characterName   String
+  characterAvatar String
+  charactersCount Int
+  wordsCount      Int
+  createdAt       DateTime  @default(now())
+  Post            Post[]
+
+  @@index([parentSectionId, characterId])
+}
+
+model Post {
+  id              Int       @id @default(autoincrement())
+  topic           Topic     @relation(fields: [topicId], references: [id], onDelete: Cascade)
+  topicId         Int
+  characterId     Int
+  character       Character @relation(fields: [characterId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  characterName   String
+  characterAvatar String
+  content         String
+  charactersCount Int
+  wordsCount      Int
+  createdAt       DateTime  @default(now())
+
+  @@index([topicId, characterId])
+}
+
+model Character {
+  id              Int      @id @default(autoincrement())
+  userId          String
+  user            User     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  name            String?
+  avatar          String?
+  icon            String?
+  village         String?
+  clan            String?
+  rank            String?
+  kekkeiGenkai    String?
+  age             Int?
+  height          Int?
+  weight          Int?
+  gender          String?
+  personality     String?
+  appearance      String?
+  photoplayer     String?
+  backgroundStory String?
+  story           String?
+  createdAt       DateTime @default(now())
+  Topic           Topic[]
+  Post            Post[]
+
+  @@index([userId])
 }
