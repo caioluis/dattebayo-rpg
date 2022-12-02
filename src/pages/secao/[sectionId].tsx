@@ -12,12 +12,14 @@ import { trpc } from "../../utils/trpc";
 import Layout from "../../components/Layout";
 import { Loading } from "../../components/navigation";
 import { Register } from "../../components/Register";
+import { NarrowContainer, Container } from "../../components/layout/index";
 
 const Secao: NextPage = () => {
   const { data: sessionData, status } = useSession();
   
+  const {data: section, status: sectionQueryStatus} = trpc.sections.getSection.useQuery({ id: 1 });
 
-  if (status === "loading") {
+  if (status === "loading" || sectionQueryStatus === "loading") {
     return (
     <div className="grid place-items-center h-screen">
       <Loading />
@@ -30,6 +32,11 @@ const Secao: NextPage = () => {
   }
 
   const user : User = sessionData.user;
+
+  // destructure section data
+  const { allSections, allTopics } = section;
+
+  console.log({ allSections, allTopics });
   
   return (
     <>
@@ -39,7 +46,20 @@ const Secao: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout user={user}>
-        <div>Hello</div>
+        <main>
+          {Object.keys(allTopics).length ? (
+            <Container>
+              <p>Topicos</p>
+            </Container>
+            ) : (
+            <NarrowContainer>
+              <h1 className="text-5xl text-center mt-10">Esta seção ainda não tem tópicos.</h1>
+              <Link href={""}><p className="text-3xl text-center mt-10 w-full">Seja o primeiro a criar um!</p></Link>
+
+            </NarrowContainer>
+            )
+          }
+        </main>
       </Layout>
     </>
   );

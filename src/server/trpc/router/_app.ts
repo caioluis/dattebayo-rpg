@@ -6,7 +6,7 @@ import { sectionRouter } from "./sections";
 export const appRouter = router({
   example: exampleRouter,
   auth: authRouter,
-  sections: sectionRouter
+  sections: sectionRouter,
 });
 
 // export type definition of API

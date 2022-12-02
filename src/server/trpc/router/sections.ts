@@ -20,5 +20,23 @@ export const sectionRouter = router({
     }),
   getAll: protectedProcedure.query(({ ctx }) => {
     return ctx.prisma.section.findMany();
-  })
+  }),
+  getSection: protectedProcedure
+    .input(z.object({
+      id: z.number(),
+    }))
+    .query(({ input, ctx }) => {
+      return {
+        allTopics: ctx.prisma.topic.findMany({
+          where: {
+            parentSectionId: input.id,
+          },
+        }),
+        allSections: ctx.prisma.section.findMany({
+          where: {
+            parentSectionId: input.id,
+          },
+        }),
+      };
+    }),
 });
