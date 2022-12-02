@@ -6,7 +6,16 @@ declare module "next-auth" {
    */
   interface Session {
     user?: {
-      id: string;
-    } & DefaultSession["user"];
+      id: string
+      name: string | null
+      email: string | null
+      emailVerified: Date | null
+      image: string | null
+      narutomakis: Prisma.Decimal | null
+      maxNumberOfCharacters: number | null
+      currentCharacter: string | null
+      birthdate: Date | null
+      createdAt: Date
+    }
   }
 }
