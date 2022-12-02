@@ -34,11 +34,11 @@ body {
 
 a {
     color: #01acf2;
-    text-decoration: none;
+    text-decoration: underline;
 }
 
 a:hover {
-    text-decoration: underline;
+    color: #048ec4;
 }
 
 .ProseMirror {

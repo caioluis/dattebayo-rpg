@@ -11,6 +11,7 @@ function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
 
+// TODO: refactor entire navbar to use reusable components
 
 export const Navbar = ({ user } : { user: User }) => {
     const { name, image } = user;
@@ -46,8 +47,8 @@ export const Navbar = ({ user } : { user: User }) => {
                     <Link href="/"
                         className={
                           path === "/"
-                            ? "bg-neutral-1000 text-white px-3 py-2 rounded-md text-sm font-medium hover:no-underline"
-                            : "text-neutral-300 hover:bg-neutral-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium hover:no-underline"
+                            ? "bg-neutral-1000 text-white px-3 py-2 rounded-md text-sm font-medium no-underline hover:no-underline"
+                            : "text-neutral-300 hover:bg-neutral-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium no-underline hover:no-underline"
                         }>
 
                         Início
@@ -56,20 +57,10 @@ export const Navbar = ({ user } : { user: User }) => {
                         className={
                           path === "/database"
                             ? "bg-neutral-1000 text-white px-3 py-2 rounded-md text-sm font-medium hover:no-underline"
-                            : "text-neutral-300 hover:bg-neutral-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium hover:no-underline"
+                            : "text-neutral-300 hover:bg-neutral-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium no-underline hover:no-underline"
                         }>
                         Database
                     </Link>
-                    {/* {roles.includes("admin") && (
-                      <Link href="/admin" className={
-                        path === "/admin"
-                          ? "bg-neutral-1000 text-white px-3 py-2 rounded-md text-sm font-medium hover:no-underline"
-                          : "text-neutral-300 hover:bg-neutral-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium hover:no-underline"
-                      }>
-
-                          Painel de Idealizador
-                      </Link>
-                    )} */}
                   </div>
                 </div>
               </div>
@@ -103,7 +94,7 @@ export const Navbar = ({ user } : { user: User }) => {
                             {({ active }) => (
                                 <Link href="/perfil" className={classNames(
                                 active ? "bg-neutral-700" : "",
-                                "block px-4 py-2 text-sm text-neutral-100"
+                                "block px-4 py-2 text-sm text-neutral-100 no-underline"
                                 )}>
 
                                     Perfil
@@ -115,7 +106,7 @@ export const Navbar = ({ user } : { user: User }) => {
                                 <button
                                 className={classNames(
                                     active ? "bg-neutral-700" : "",
-                                    "block px-4 py-2 text-sm text-neutral-100 w-full text-left"
+                                    "block px-4 py-2 text-sm text-neutral-100 w-full text-left no-underline"
                                 )}
                                 onClick={() => signOut()}
                                 >
@@ -147,16 +138,16 @@ export const Navbar = ({ user } : { user: User }) => {
               {/* Current: "bg-neutral-900 text-white", Default: "text-neutral-300 hover:bg-neutral-700 hover:text-white" */}
               <Disclosure.Button as={Link} href="/"  className={
                     path === "/"
-                      ? "bg-neutral-900 text-white block px-3 py-2 rounded-md text-base font-medium"
-                      : "text-neutral-300 hover:bg-neutral-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+                      ? "bg-neutral-900 text-white block px-3 py-2 rounded-md text-base font-medium no-underline"
+                      : "text-neutral-300 hover:bg-neutral-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium no-underline"
                   }>
 
                   Início
               </Disclosure.Button>
               <Disclosure.Button as={Link} href="/database" className={
                     path === "/database"
-                      ? "bg-neutral-900 text-white block px-3 py-2 rounded-md text-base font-medium"
-                      : "text-neutral-300 hover:bg-neutral-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+                      ? "bg-neutral-900 text-white block px-3 py-2 rounded-md text-base font-medium no-underline"
+                      : "text-neutral-300 hover:bg-neutral-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium no-underline"
                   }>
                   Database
               </Disclosure.Button>
@@ -180,12 +171,12 @@ export const Navbar = ({ user } : { user: User }) => {
               </div>
               <div className="mt-3 px-2 space-y-1">
                   <>
-                    <Disclosure.Button as={Link} href="/perfil" className="block px-3 py-2 rounded-md text-base font-medium text-neutral-400 hover:text-white hover:bg-neutral-700">
+                    <Disclosure.Button as={Link} href="/perfil" className="block px-3 py-2 rounded-md text-base font-medium text-neutral-400 no-underline hover:text-white hover:bg-neutral-700">
 
                         Perfil
 
                     </Disclosure.Button>
-                    <Disclosure.Button className="block px-3 py-2 rounded-md text-base font-medium text-neutral-400 hover:text-white hover:bg-neutral-700 w-full text-left" onClick={() => signOut()}>
+                    <Disclosure.Button className="block px-3 py-2 rounded-md text-base font-medium text-neutral-400 hover:text-white no-underline hover:bg-neutral-700 w-full text-left" onClick={() => signOut()}>
   
                         Sair
 
