@@ -1,0 +1,24 @@
+const createSection = trpc.sections.createSection.useMutation();
+
+const [state, dispatch] = useReducer(
+    (state: { title: string; description: string }, action: { type: string; payload: string }) => {
+        switch (action.type) {
+            case "title":
+                return { ...state, title: action.payload };
+            case "description":
+                return { ...state, description: action.payload };
+            default:
+                return state;
+        }
+    },
+    { title: "", description: "" }
+);
+
+const handleCreateSection = async () => {
+    createSection.mutate(
+        {
+            title: state.title,
+            description: state.description,
+        },
+    );
+};
