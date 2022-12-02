@@ -1,0 +1,32 @@
+﻿<svg width="300" height="300" id="svg4507" x="452" y="300" viewBox="0 0 300 300" xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+ <metadata id="metadata7">image/svg+xmlimage/svg+xml</metadata>
+ <!-- Created by Lukas Pessoa Dantas -->
+ <defs>
+  <radialGradient cx="150" cy="150" fx="150" fy="150" gradientUnits="userSpaceOnUse" r="147" id="fondo">
+   <stop stop-color="#674f75" offset="0" id="fondo 9"/>
+   <stop stop-color="#ae96ba" id="fondo 8" offset="0.17"/>
+   <stop stop-color="#76588e" id="fondo 7" offset="0.26558"/>
+   <stop offset="0.27847" id="stop5686" stop-color="#b19cc2"/>
+   <stop stop-color="#cabad2" offset="0.375" id="fondo 6"/>
+   <stop stop-color="#b19cc2" id="fondo 5" offset="0.5"/>
+   <stop stop-color="#cabad2" offset="0.63" id="fondo 4"/>
+   <stop stop-color="#b19cc2" id="fondo 3" offset="0.75"/>
+   <stop stop-color="#cabad2" id="fondo 2" offset="0.85"/>
+   <stop stop-color="#7c5f8d" id="fondo 1" offset="1"/>
+  </radialGradient>
+  <radialGradient xlink:href="#fondo" id="radialGradient5684" gradientUnits="userSpaceOnUse" cx="150" cy="150" fx="150" fy="150" r="147" gradientTransform="translate(5.5236816e-7,4.030957e-5)"/>
+ </defs>
+ <circle id="base" cx="150" cy="150" r="145.49998" stroke-width="9" stroke="#000000" fill="url(#radialGradient5684)"/>
+ <circle id="iris 3" cx="151" cy="148.99995" r="111.64285" stroke-width="2.5" stroke="#000000" fill="none"/>
+ <circle id="iris1" cx="150" cy="149.99995" r="40.47619" stroke-width="2.5" stroke="#000000" fill="none"/>
+ <circle r="76.95237" cy="150" cx="150" id="iris 2" stroke-width="2.5" stroke="#000000" fill="none"/>
+ <circle id="centro" cx="150" cy="149.99997" r="9.66667" fill="#000000"/>
+ <g id="g7744" transform="translate(-146.20489,75.880173)">
+  <use transform="rotate(120,160,160)" height="300" width="300" id="use7732" xlink:href="#tomoe 1" y="0" x="0"/>
+  <use x="0" y="0" xlink:href="#tomoe 1" id="use7734" width="300" height="300" transform="rotate(-120,160,160)"/>
+  <g id="g7742" transform="translate(134.03678,5.4298993)">
+   <use transform="rotate(120,160,160)" height="300" width="300" id="use7738" xlink:href="#tomoe 3a" y="0" x="0"/>
+   <use x="0" y="0" xlink:href="#tomoe 3a" id="use7740" width="300" height="300" transform="rotate(-120,160,160)"/>
+  </g>
+ </g>
+</svg>

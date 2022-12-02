@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 26.3.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1"
+	 id="svg3347" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:svg="http://www.w3.org/2000/svg" sodipodi:version="0.32" inkscape:version="0.46" sodipodi:docname="Nature Icon Steel.svg" inkscape:output_extension="org.inkscape.output.svg.inkscape"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 125 125"
+	 style="enable-background:new 0 0 125 125;" xml:space="preserve">
+<style type="text/css">
+	
+		.st0{fill-rule:evenodd;clip-rule:evenodd;fill:url(#Steel_icon_00000065763690070568825040000000519486353241253778_);stroke:#000000;stroke-width:5.6604;}
+</style>
+<sodipodi:namedview  bordercolor="#666666" borderopacity="1.0" gridtolerance="10.0" guidetolerance="10.0" id="base" inkscape:current-layer="svg3347" inkscape:cx="-4.6093725" inkscape:cy="61.548693" inkscape:object-nodes="true" inkscape:pageopacity="0.0" inkscape:pageshadow="2" inkscape:snap-center="true" inkscape:window-height="930" inkscape:window-width="1280" inkscape:window-x="-4" inkscape:window-y="-4" inkscape:zoom="1" objecttolerance="50" pagecolor="#ffffff" showgrid="false">
+	</sodipodi:namedview>
+<radialGradient id="Steel_icon_00000024719756059447469230000007111875687648243878_" cx="62.5" cy="64.5" r="50" gradientTransform="matrix(1 0 0 -1 0 127)" gradientUnits="userSpaceOnUse">
+	<stop  offset="0" style="stop-color:#4682B4"/>
+	<stop  offset="1" style="stop-color:#808080"/>
+</radialGradient>
+<path id="Steel_icon" sodipodi:nodetypes="ccccccccccccccccccccc" style="fill-rule:evenodd;clip-rule:evenodd;fill:url(#Steel_icon_00000024719756059447469230000007111875687648243878_);stroke:#000000;stroke-width:5.6604;" d="
+	M15.3,43.6l9.4-9.4v-9.4h9.4l9.4-9.4h37.7l9.4,9.4h9.4v9.4l9.4,9.4v37.7l-9.4,9.4v9.4h-9.4l-9.4,9.4H43.6l-9.4-9.4h-9.4v-9.4
+	l-9.4-9.4V43.6z"/>
+<path id="Steel_kanji" d="M56.8,50.6c-2.5-2.9-5.5-6-9.1-9.3c-1.5,2.9-3.1,5.7-4.8,8.3h12.1v3.9h-5.8v6.1h8.3v3.9h-8.3v18.6l8.6-2.2
+	l0.5,4.2l-20.1,5.4c-0.2,1.5-0.7,1.6-1.5,0.5l-1.5-4.9l9.8-2V63.6h-8.3v-3.9H45v-6.1h-4.8c-0.8,1.3-1.9,2.6-3.3,3.9l-2.8-4.4
+	c4.4-4.4,8.2-10.7,11.6-18.9l4.8,1.2c1.2,0.7,1,1.1-0.5,1.2l-0.3,0.7c4.5,3.4,7.8,6.1,9.8,8.1L56.8,50.6z M71.7,42.8
+	c1.2,1.8,2.1,4.3,2.8,7.6l-3.8,1.2c-0.7-2.3-1.5-4.9-2.5-7.8L71.7,42.8z M83.3,43c1,0.5,0.8,1-0.8,1.5l-2.8,8.1h4.5v3.9h-6.8v18.9
+	h3.3V60.9h3.5V81h-3.5v-1.7H70.7V82h-3.5V61.4h3.5v14h3.3V56.5h-7.8v-3.9h10.1L78.5,42L83.3,43z M60.1,35.9h30.7v51.2
+	c0,2.1-1.1,3.2-3.3,3.2H84l-1-4.7h2.5c0.7,0,1-0.3,1-1V39.8H64.4v51h-4.3V35.9z M57.6,67.5c0.8,0.5,0.8,0.9-0.3,1.2
+	c-0.5,3.4-1.1,6.8-1.8,10l-4-0.5c0.5-3.1,0.9-6.9,1.3-11.5L57.6,67.5z M40.7,67.8c1,3.8,1.8,7.4,2.5,11L38.7,80
+	c-0.7-3.9-1.5-7.6-2.5-11L40.7,67.8z"/>
+</svg>
