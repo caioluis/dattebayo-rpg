@@ -46,7 +46,7 @@ model User {
   emailVerified         DateTime?
   image                 String?
   narutomakis           Decimal?    @default(0) @db.Decimal(13, 10)
-  maxNumberOfCharacters Int?        @default(3)
+  maxNumberOfCharacters Int?        @default(1)
   currentCharacter      String?
   birthdate             DateTime?
   createdAt             DateTime    @default(now())
