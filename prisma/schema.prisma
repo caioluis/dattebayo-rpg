@@ -47,12 +47,13 @@ model User {
   image                 String?
   narutomakis           Decimal?    @default(0) @db.Decimal(13, 4)
   maxNumberOfCharacters Int?        @default(1)
-  currentCharacter      String?
+  currentCharacter      Int?
   birthdate             DateTime?
   createdAt             DateTime    @default(now())
   accounts              Account[]
   sessions              Session[]
   Character             Character[]
+  Village               Village[]
 }
 
 // auto increment Section id starting from 1
@@ -126,4 +127,17 @@ model Character {
   Post            Post[]
 
   @@index([userId])
+}
+
+model Village {
+  id                Int     @id @default(autoincrement())
+  name              String
+  portugueseName    String  @default("Vila Oculta da ")
+  kageId            String?
+  kage              User?   @relation(fields: [kageId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  maxNumberOfNinjas Int
+  cardPhoto         String?
+  wallpaper         String?
+
+  @@index([kageId])
 }

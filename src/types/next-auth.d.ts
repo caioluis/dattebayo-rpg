@@ -13,9 +13,9 @@ declare module "next-auth" {
       image: string | null
       narutomakis: Prisma.Decimal | null
       maxNumberOfCharacters: number | null
-      currentCharacter: string | null
+      currentCharacter: number | null
       birthdate: Date | null
       createdAt: Date
-    }
+    } & DefaultSession["user"]
   }
 }

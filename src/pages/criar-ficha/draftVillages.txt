@@ -1,0 +1,77 @@
+<div className="flex flex-col max-w-7xl mx-auto py-24 px-4 sm:px-6 lg:px-8">
+          <h2 className="pb-6 self-center text-lg text-center font-bold text-neutral-300 sm:text-2xl sm:leading-none sm:tracking-tight lg:text-5xl">
+            Escolha sua Vila
+          </h2>
+          {/* Cards das Vilas */}
+          <div className="mt-12 gap-x-8 space-y-12 lg:space-y-0 lg:grid lg:grid-cols-3 2xl:gap-x-24">
+            {villagesData?.allVillages.map((village) => (
+              <div className="flex flex-col w-fit" key={village._id}>
+                <div
+                  onClick={() => joinVillage(village._id)}
+                  disabled={village.ninjas.length + 1 > village.maximoDeNinjas}
+                  style={{
+                    backgroundImage: `linear-gradient(rgba(0,0,0, 0) 0%,rgba(0,0,0, 1) 100%), url(${village.cardPhoto})`,
+                    backgroundSize: 'cover'
+                  }}
+                  className={
+                    'min-w-[300px] h-[420px] relative rounded-2xl shadow-sm flex flex-col 2xl:min-w-[400px] 2xl:h-[560px] transition-all duration-1000 hover:transition-all hover:duration-300 cursor-pointer ' +
+                    (vila !== village._id
+                      ? 'saturate-0 hover:saturate-100'
+                      : '')
+                  }
+                >
+                  {village._id === '2' ? (
+                    <div className="flex w-full justify-between absolute bottom-1 mb-5 2xl:mb-10">
+                      <div className="ml-5">
+                        <h2 className="text-4xl 2xl:text-6xl font-bold">
+                          Suna
+                        </h2>
+                        <h3 className="text-xl font-medium text-neutral-400 ml-2">
+                          Vila da Areia
+                        </h3>
+                      </div>
+                      <div className="h-[75px] w-[75px] 2xl:h-[100px] 2xl:w-[100px]">
+                        <Suna className="stroke-amber-400 mr-3" />
+                      </div>
+                    </div>
+                  ) : village._id === '3' ? (
+                    <div className="flex w-full justify-between absolute bottom-1 mb-5 2xl:mb-10">
+                      <div className="ml-5">
+                        <h2 className="text-4xl 2xl:text-6xl font-bold">
+                          Kiri
+                        </h2>
+                        <h3 className="text-xl font-medium text-neutral-400 ml-1 2xl:ml-2">
+                          Vila da Névoa
+                        </h3>
+                      </div>
+                      <div className="h-[75px] w-[75px] 2xl:h-[100px] 2xl:w-[100px]">
+                        <Kiri className="stroke-cyan-400 mr-3" />
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="flex w-full justify-between absolute bottom-1 mb-5 2xl:mb-10">
+                      <div className="ml-5">
+                        <h2 className="text-4xl 2xl:text-6xl font-bold">
+                          Konoha
+                        </h2>
+                        <h3 className="text-xl font-medium text-neutral-400 ml-1 2xl:ml-2">
+                          Vila da Folha
+                        </h3>
+                      </div>
+                      <div className="h-[75px] w-[75px] 2xl:h-[100px] 2xl:w-[100px]">
+                        <Konoha className="stroke-emerald-400 mr-3" />
+                      </div>
+                    </div>
+                  )}
+                </div>
+                <p className="self-center mt-5">
+                  Vagas restantes:{' '}
+                  {village.maximoDeNinjas - village.ninjas.length}
+                </p>
+                {vila === village._id && (
+                  <p className="self-center mt-5">Você escolheu essa vila!</p>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
