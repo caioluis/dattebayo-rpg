@@ -1,7 +1,6 @@
 
 import type { NextPage } from 'next';
 
-import { Loading } from '../../components/navigation';
 import { trpc } from '../../utils/trpc';
 import type { User } from '@prisma/client';
 import { useEffect, useState } from 'react';
