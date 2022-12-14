@@ -109,7 +109,7 @@ model Character {
   name            String?
   avatar          String?
   icon            String?
-  village         String?
+  village         Int?
   clan            String?
   rank            String?
   kekkeiGenkai    String?
