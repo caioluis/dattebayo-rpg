@@ -1,30 +1,24 @@
 import type { User } from '@prisma/client';
 import Link from 'next/link';
+import { useState } from 'react';
 
 import { trpc } from '../../utils/trpc';
 
-export const CallToCreateCharacter = ({ userId }: { userId: User['id'] }) => {
-  const createCharacterMutation = trpc.character.createCharacter.useMutation(
-    {
-        onSuccess: (data) => userCurrentCharacterMutation.mutate({id: userId, currentCharacterId: data.id})
-    }
-  );
 
-  const userCurrentCharacterMutation =
-    trpc.user.setCurrentCharacter.useMutation();
+export const CallToCreateCharacter = ({ userId }: { userId: User['id'] }) => {
+  const createCharacterMutation = trpc.character.createCharacter.useMutation();
 
   const handleCharacterCreation = async (userId: User['id']) => {
     const characterCreation = await createCharacterMutation.mutateAsync({
       userId
     });
-    console.log(characterCreation)
     return characterCreation;
   };
 
   return (
     <Link
       href={''}
-      onClick={() => handleCharacterCreation(userId)}
+      onClick={() => (handleCharacterCreation(userId))}
       className="no-underline text-white hover:text-neutral-300"
     >
       <div className="mt-10 flex flex-col items-center justify-center bg-rose-500 bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 rounded border border-neutral-800">

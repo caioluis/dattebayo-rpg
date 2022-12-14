@@ -1,48 +1,48 @@
 import Image from 'next/image';
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
-
-import Layout from '../../components/Layout';
-import { Container } from '../../components/layout/index';
-import { Suna, Kiri, Konoha } from '../../components/logos';
 import { useSession } from 'next-auth/react';
-import { Loading } from '../../components/navigation';
-import { trpc } from '../../utils/trpc';
-import type { User } from '@prisma/client';
+
 import { useEffect, useState } from 'react';
 
-const ChooseYourVillage: NextPage = () => {
-  const { data: session, status: sessionQueryStatus } =
-    trpc.auth.getSession.useQuery();
+import { trpc } from '../utils/trpc';
+
+import type { User } from '@prisma/client';
+
+import Layout from '../components/Layout';
+import ChooseYourVillage from '../components/criar-ficha/ChooseVillage';
+import { Container } from '../components/layout/index';
+import { Loading } from '../components/navigation';
+import { useLocalStorage } from '../hooks/useLocalStorage';
+
+const CreationViews = {
+  1: ChooseYourVillage,
+};
+
+
+const CriarFicha: NextPage = () => {
+  const [stage, setStage] = useLocalStorage("characterSheetCreationStage", 1);
+  const { data: session, status: sessionQueryStatus } = trpc.auth.getSession.useQuery();
   const [user, setUser] = useState<User | null>(null);
-  const router = useRouter();
+  
 
   useEffect(() => {
     if (session) {
-      setUser(session.user);
+      setUser(session.user ?? null);
     }
   }, [session]);
 
-  const { data: character, status: getCurrentCharacterQueryStatus } =
-    trpc.character.getCurrentCharacter.useQuery({
-      currentCharacter: user?.currentCharacter
-    }, {
-      onError: () => {
-        return router.push('/');
-      }
-    });
+  useEffect(() => console.log('Stage changed!'), [stage]);
 
-
-  if (
-    sessionQueryStatus == 'loading' ||
-    getCurrentCharacterQueryStatus == 'loading'
-  ) {
+  if (sessionQueryStatus == 'loading') {
     return (
       <div className="grid place-items-center h-screen">
         <Loading />
       </div>
     );
   }
+
+  const CreationStageView = CreationViews[stage] ?? ChooseYourVillage;
 
   return (
     <Layout user={user}>
@@ -59,10 +59,10 @@ const ChooseYourVillage: NextPage = () => {
         />
       </div>
       <Container>
-        <div>hello</div>
+        <CreationStageView user={user} setStage={setStage}/>
       </Container>
     </Layout>
   );
 };
 
-export default ChooseYourVillage;
+export default CriarFicha;
