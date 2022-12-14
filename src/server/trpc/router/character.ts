@@ -47,10 +47,11 @@ export const characterRouter = router({
     getCurrentCharacter: protectedProcedure
         .input(
             z.object({
-                currentCharacter: z.number()
+                currentCharacter: z.number().nullish()
             })
         )
         .query(({ input, ctx }) => {
+            if (!input.currentCharacter) return null;
             return ctx.prisma.character.findUnique({
                 where: {
                     id: input.currentCharacter

@@ -50,7 +50,7 @@ const Home: NextPage = () => {
       </div>
       <Container>
         <NarrowContainer>
-          {!userHasCharacter && <CallToCreateCharacter userId={user.id}/>}
+          <>{!userHasCharacter && <CallToCreateCharacter userId={user.id}/> }</>
           <Mural />
           <RegrasETutoriais />
         </NarrowContainer>
