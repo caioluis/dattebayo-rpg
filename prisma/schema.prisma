@@ -10,7 +10,6 @@ datasource db {
   relationMode = "prisma"
 }
 
-// Necessary for Next auth
 model Account {
   id                String  @id @default(cuid())
   userId            String
@@ -46,25 +45,24 @@ model User {
   email                 String?     @unique
   emailVerified         DateTime?
   image                 String?
-  narutomakis           Decimal?    @default(0) @db.Decimal(13, 4)
-  maxNumberOfCharacters Int?        @default(1)
-  currentCharacter      Int?
   birthdate             DateTime?
   createdAt             DateTime    @default(now())
+  currentCharacter      Int?
+  maxNumberOfCharacters Int?        @default(1)
+  narutomakis           Decimal?    @default(0.0000) @db.Decimal(13, 4)
   accounts              Account[]
   sessions              Session[]
   Character             Character[]
   Village               Village[]
 }
 
-// auto increment Section id starting from 1
 model Section {
   id              Int       @id @default(autoincrement())
   title           String
   description     String?
   parentSectionId Int?
-  parentSection   Section?  @relation(name: "SectionTree", fields: [parentSectionId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  childSections   Section[] @relation(name: "SectionTree")
+  parentSection   Section?  @relation("SectionTree", fields: [parentSectionId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  childSections   Section[] @relation("SectionTree")
   Topic           Topic[]
 
   @@index([parentSectionId])
@@ -74,14 +72,14 @@ model Topic {
   id              Int       @id @default(autoincrement())
   title           String
   parentSectionId Int
-  parentSection   Section   @relation(fields: [parentSectionId], references: [id], onDelete: Cascade)
   characterId     Int
-  character       Character @relation(fields: [characterId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   characterName   String
   characterAvatar String
   charactersCount Int
   wordsCount      Int
   createdAt       DateTime  @default(now())
+  parentSection   Section   @relation(fields: [parentSectionId], references: [id], onDelete: Cascade)
+  character       Character @relation(fields: [characterId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   Post            Post[]
 
   @@index([parentSectionId, characterId])
@@ -89,16 +87,16 @@ model Topic {
 
 model Post {
   id              Int       @id @default(autoincrement())
-  topic           Topic     @relation(fields: [topicId], references: [id], onDelete: Cascade)
   topicId         Int
   characterId     Int
-  character       Character @relation(fields: [characterId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   characterName   String
   characterAvatar String
   content         String
   charactersCount Int
   wordsCount      Int
   createdAt       DateTime  @default(now())
+  topic           Topic     @relation(fields: [topicId], references: [id], onDelete: Cascade)
+  character       Character @relation(fields: [characterId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   @@index([topicId, characterId])
 }
@@ -106,7 +104,6 @@ model Post {
 model Character {
   id              Int      @id @default(autoincrement())
   userId          String
-  user            User     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   name            String?
   avatar          String?
   icon            String?
@@ -124,6 +121,7 @@ model Character {
   backgroundStory String?
   story           String?
   createdAt       DateTime @default(now())
+  user            User     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   Topic           Topic[]
   Post            Post[]
 
@@ -133,12 +131,12 @@ model Character {
 model Village {
   id                Int     @id @default(autoincrement())
   name              String
-  portugueseName    String  @default("Vila Oculta da ")
   kageId            String?
-  kage              User?   @relation(fields: [kageId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  maxNumberOfNinjas Int
   cardPhoto         String?
+  maxNumberOfNinjas Int
+  portugueseName    String  @default("Vila Oculta da ")
   wallpaper         String?
+  kage              User?   @relation(fields: [kageId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   @@index([kageId])
 }
