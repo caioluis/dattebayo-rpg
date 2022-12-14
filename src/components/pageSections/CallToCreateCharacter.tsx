@@ -17,7 +17,7 @@ export const CallToCreateCharacter = ({ userId }: { userId: User['id'] }) => {
 
   return (
     <Link
-      href={''}
+      href={'/criar-ficha'}
       onClick={() => (handleCharacterCreation(userId))}
       className="no-underline text-white hover:text-neutral-300"
     >
