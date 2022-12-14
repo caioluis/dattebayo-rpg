@@ -11,12 +11,14 @@ import type { User } from '@prisma/client';
 
 import Layout from '../components/Layout';
 import ChooseYourVillage from '../components/criar-ficha/ChooseVillage';
+import RandomPage from '../components/criar-ficha/RandomComponent';
 import { Container } from '../components/layout/index';
 import { Loading } from '../components/navigation';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 
 const CreationViews = {
   1: ChooseYourVillage,
+  2: RandomPage,
 };
 
 
