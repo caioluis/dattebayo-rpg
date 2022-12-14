@@ -4,6 +4,7 @@ import { exampleRouter } from "./example";
 import { sectionRouter } from "./sections";
 import { characterRouter } from "./character";
 import { userRouter } from "./user";
+import { villageRouter } from "./villages";
 
 export const appRouter = router({
   example: exampleRouter,
@@ -11,6 +12,7 @@ export const appRouter = router({
   sections: sectionRouter,
   character: characterRouter,
   user: userRouter,
+  village: villageRouter
 });
 
 // export type definition of API
