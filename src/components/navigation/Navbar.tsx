@@ -13,9 +13,13 @@ function classNames(...classes: string[]) {
 
 // TODO: refactor entire navbar to use reusable components
 
-export const Navbar = ({ user } : { user: User }) => {
-    const { name, image } = user;
-    const path = useRouter().pathname;
+export const Navbar = ({ user } : { user: User | null}) => {
+  // placeholder 100x100 image
+  const placeholderImage = "https://via.placeholder.com/100x100";
+  const userImage = user?.image ?? placeholderImage;
+  const userName = user?.name ?? "Visitante";
+
+  const path = useRouter().pathname;
   return (
     <Disclosure as="nav" className="bg-neutral-900 shadow-sm">
       {({ open }) => (
@@ -75,7 +79,7 @@ export const Navbar = ({ user } : { user: User }) => {
                             className="rounded-full"
                             height={32}
                             width={32}
-                            src={image}
+                            src={userImage}
                             alt="Foto de perfil"
                             />
                         </Menu.Button>
@@ -159,13 +163,13 @@ export const Navbar = ({ user } : { user: User }) => {
                     className="rounded-full"
                     height={40}
                     width={40}
-                    src={image}
+                    src={userImage}
                     alt="Foto de perfil"
                   />
                 </div>
                 <div className="ml-3">
                   <div className="text-base font-medium text-white">
-                    {name}
+                    {userName}
                   </div>
                 </div>
               </div>
