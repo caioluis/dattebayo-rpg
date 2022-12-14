@@ -34,10 +34,8 @@ const Secao: NextPage = () => {
 
   const user: User = sessionData.user;
 
-  // destructure section data
-  const { allSections, allTopics } = section;
-
-  console.log({ allSections, allTopics });
+  const allSections = section?.allSections;
+  const allTopics = section?.allTopics ?? [];
 
   return (
     <Layout user={user}>
