@@ -11,16 +11,15 @@ import { useRouter } from 'next/router';
 const ChooseYourVillage: NextPage = ({ user, setStage }: { user: User | null, setStage: React.Dispatch<React.SetStateAction<number>> }) => {
   const router = useRouter();
   const { data: villagesData } = trpc.village.getAll.useQuery();
-  const { data: numberOfNinjas } = trpc.village.getNumberOfNinjas.useQuery();
   const { data: character, status: getCurrentCharacterQueryStatus } =
-    trpc.character.getCurrentCharacter.useQuery(
+    trpc.character.getCurrentCharacterVillage.useQuery(
       {
         currentCharacter: user?.currentCharacter
       },
       {
         onError: () => {
           return router.push('/');
-        }
+        },
       }
     );
   const { mutateAsync: joinVillage, status: joinVillageMutationStatus } =
@@ -70,17 +69,11 @@ const ChooseYourVillage: NextPage = ({ user, setStage }: { user: User | null, se
       {/* Cards das Vilas */}
       <div className="mt-12 gap-x-8 space-y-12 lg:space-y-0 lg:grid lg:grid-cols-3 2xl:gap-x-24">
         {villagesData?.map((village) => {
-          const villageObject = numberOfNinjas?.find(
-            (villageObj) => villageObj.village === village.id
-          );
-          const villageHasSpace =
-            (villageObject?.village ?? 0) + 1 > village.maxNumberOfNinjas;
-          const numberOfVacantSpots =
-            village.maxNumberOfNinjas - (villageObject?._count ?? 0);
+          const numberOfVacantSpots = village.maxNumberOfNinjas - village.numberOfNinjas;
           return (
             <div className="flex flex-col w-fit" key={village.id}>
               <button
-                disabled={villageHasSpace}
+                disabled={numberOfVacantSpots === 0}
                 style={{
                   backgroundImage: `linear-gradient(rgba(0,0,0, 0) 0%,rgba(0,0,0, 1) 100%), url(${village.cardPhoto})`,
                   backgroundSize: 'cover'

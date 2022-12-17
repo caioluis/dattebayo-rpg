@@ -1,77 +1,99 @@
+import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
 
 import { router, protectedProcedure } from '../trpc';
 
 export const villageRouter = router({
-    createVillage: protectedProcedure
-        .input(
-            z.object({
-                name: z.string(),
-                cardPhoto: z.string().nullish(),
-                maxNumberOfNinjas: z.number(),
-            })
-        )
-        .mutation(({ input, ctx }) => {
-            return ctx.prisma.village
-                .create({
-                    data: {
-                        name: input.name,
-                        cardPhoto: input.cardPhoto,
-                        maxNumberOfNinjas: input.maxNumberOfNinjas as number,
-                    },
-                })
-        }),
-    getAll: protectedProcedure
-        .query(({ ctx }) => {
-            return ctx.prisma.village.findMany();
-        }),
-    getNumberOfNinjas: protectedProcedure
-        .query(({ ctx }) => {
-            return ctx.prisma.character.groupBy({
-                by: ['village'],
-                _count: true,
-            })
-        }),
-    joinVillage: protectedProcedure
-        .input(
-            z.object({
-                villageId: z.number(),
-                characterId: z.number(),
-            })
-        )
-        .mutation(async ({ input, ctx }) => {
-            const village = await ctx.prisma.village.findUnique({
-                where: {
-                    id: input.villageId,
-                },
-                select: {
-                    id: true,
-                    maxNumberOfNinjas: true,
-                }
-            });
-            if (village) {
-                return ctx.prisma.character.count({
-                    where: {
-                        village: {
-                            equals: village.id,
-                        }
-                    }
-                }).then((numberOfNinjas) => {
-                    if (numberOfNinjas + 1 <= village.maxNumberOfNinjas) {
-                        return ctx.prisma.character.update({
-                            where: {
-                                id: input.characterId,
-                            },
-                            data: {
-                                village: village.id,
-                            }
-                        });
-                    } else {
-                        return Promise.reject(`A vila está cheia!`);
-                    }
-                });
-            } else {
-                return Promise.reject('Essa vila não existe!');
+  createVillage: protectedProcedure
+    .input(
+      z.object({
+        name: z.string(),
+        cardPhoto: z.string().nullish(),
+        maxNumberOfNinjas: z.number()
+      })
+    )
+    .mutation(({ input, ctx }) => {
+      return ctx.prisma.village.create({
+        data: {
+          name: input.name,
+          cardPhoto: input.cardPhoto,
+          maxNumberOfNinjas: input.maxNumberOfNinjas as number
+        }
+      });
+    }),
+  getAll: protectedProcedure.query(({ ctx }) => {
+    return ctx.prisma.village.findMany();
+  }),
+  joinVillage: protectedProcedure
+    .input(
+      z.object({
+        villageId: z.number(),
+        characterId: z.number()
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      const villagePromise = ctx.prisma.village.findUnique({
+        where: {
+          id: input.villageId
+        },
+        select: {
+          id: true,
+          numberOfNinjas: true,
+          maxNumberOfNinjas: true
+        }
+      });
+      const characterPromise = ctx.prisma.character.findUnique({
+        where: {
+          id: input.characterId
+        },
+        select: {
+          id: true,
+          village: true
+        }
+      });
+      // parallelize the queries
+      const [village, character] = await Promise.all([
+        villagePromise,
+        characterPromise
+      ]);
+      if (village) {
+        if (village.numberOfNinjas + 1 <= village.maxNumberOfNinjas) {
+          const updatedCharacter = ctx.prisma.character.update({
+            where: {
+              id: input.characterId
+            },
+            data: {
+              village: village.id
             }
-        })
+          });
+          const newVillage = ctx.prisma.village.update({
+            where: {
+              id: village.id
+            },
+            data: {
+              numberOfNinjas: { increment: 1 }
+            }
+          });
+          const oldVillage = ctx.prisma.village.update({
+            where: {
+              id: character?.village
+            },
+            data: {
+              numberOfNinjas: { decrement: 1 }
+            }
+          });
+          return Promise.all([updatedCharacter, newVillage, oldVillage]);
+        } else {
+          throw new TRPCError({
+            code: 'BAD_REQUEST',
+            message: 'Essa vila está cheia!'
+          });
+        }
+      } else {
+        throw new TRPCError({
+          code: 'BAD_REQUEST',
+          message: 'Essa vila não existe'
+        });
+      }
+    })
 });

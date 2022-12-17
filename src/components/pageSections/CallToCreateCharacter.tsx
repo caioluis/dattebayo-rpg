@@ -1,23 +1,29 @@
 import type { User } from '@prisma/client';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 
 import { trpc } from '../../utils/trpc';
 
 
 export const CallToCreateCharacter = ({ userId }: { userId: User['id'] }) => {
+  const router = useRouter();
+  
   const createCharacterMutation = trpc.character.createCharacter.useMutation();
 
   const handleCharacterCreation = async (userId: User['id']) => {
-    const characterCreation = await createCharacterMutation.mutateAsync({
-      userId
-    });
-    return characterCreation;
+      await createCharacterMutation.mutateAsync({
+        userId
+      },
+      {
+        onSuccess: () => router.push(`/criar-ficha/`),
+        onError: (error) => alert(error)
+      })
   };
 
   return (
     <Link
-      href={'/criar-ficha'}
+      href={' '}
       onClick={() => (handleCharacterCreation(userId))}
       className="no-underline text-white hover:text-neutral-300"
     >

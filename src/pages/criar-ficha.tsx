@@ -1,11 +1,8 @@
 import Image from 'next/image';
 import type { NextPage } from 'next';
-import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
 
-import { useEffect, useState } from 'react';
-
-import { trpc } from '../utils/trpc';
+import { useEffect } from 'react';
 
 import type { User } from '@prisma/client';
 
@@ -24,25 +21,20 @@ const CreationViews = {
 
 const CriarFicha: NextPage = () => {
   const [stage, setStage] = useLocalStorage("characterSheetCreationStage", 1);
-  const { data: session, status: sessionQueryStatus } = trpc.auth.getSession.useQuery();
-  const [user, setUser] = useState<User | null>(null);
-  
-
-  useEffect(() => {
-    if (session) {
-      setUser(session.user ?? null);
-    }
-  }, [session]);
+  const { data: session, status: sessionQueryStatus } = useSession();
 
   useEffect(() => console.log('Stage changed!'), [stage]);
 
-  if (sessionQueryStatus == 'loading') {
+
+  if (sessionQueryStatus == 'unauthenticated' || session?.user == null) {
     return (
       <div className="grid place-items-center h-screen">
         <Loading />
       </div>
     );
   }
+
+  const user: User = session?.user;
 
   const CreationStageView = CreationViews[stage] ?? ChooseYourVillage;
 
@@ -52,7 +44,7 @@ const CriarFicha: NextPage = () => {
         <Image
           src="/wallpaperFicha.png"
           alt="Background"
-          layout="fill"
+          fill={true}
           className="aspect-w-16 aspect-h-9 object-cover grayscale"
           style={{
             WebkitMaskImage:
