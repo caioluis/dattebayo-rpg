@@ -48,12 +48,11 @@ model User {
   birthdate             DateTime?
   createdAt             DateTime    @default(now())
   currentCharacter      Int?
-  maxNumberOfCharacters Int?        @default(1)
+  maxNumberOfCharacters Int         @default(1)
   narutomakis           Decimal?    @default(0.0000) @db.Decimal(13, 4)
   accounts              Account[]
   sessions              Session[]
   Character             Character[]
-  Village               Village[]
 }
 
 model Section {
@@ -82,7 +81,8 @@ model Topic {
   character       Character @relation(fields: [characterId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   Post            Post[]
 
-  @@index([parentSectionId, characterId])
+  @@index([parentSectionId])
+  @@index([characterId])
 }
 
 model Post {
@@ -98,16 +98,17 @@ model Post {
   topic           Topic     @relation(fields: [topicId], references: [id], onDelete: Cascade)
   character       Character @relation(fields: [characterId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
-  @@index([topicId, characterId])
+  @@index([topicId])
+  @@index([characterId])
 }
 
 model Character {
-  id              Int      @id @default(autoincrement())
+  id              Int       @id @default(autoincrement())
   userId          String
   name            String?
   avatar          String?
   icon            String?
-  village         Int?
+  village         Int       @default(0)
   clan            String?
   rank            String?
   kekkeiGenkai    String?
@@ -120,23 +121,25 @@ model Character {
   photoplayer     String?
   backgroundStory String?
   story           String?
-  createdAt       DateTime @default(now())
-  user            User     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  createdAt       DateTime  @default(now())
+  user            User      @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   Topic           Topic[]
   Post            Post[]
+  Village         Village[]
 
   @@index([userId])
 }
 
 model Village {
-  id                Int     @id @default(autoincrement())
+  id                Int        @id @default(autoincrement())
   name              String
-  kageId            String?
+  kageId            Int?
   cardPhoto         String?
+  numberOfNinjas    Int        @default(0)
   maxNumberOfNinjas Int
-  portugueseName    String  @default("Vila Oculta da ")
+  portugueseName    String     @default("Vila Oculta da ")
   wallpaper         String?
-  kage              User?   @relation(fields: [kageId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  kage              Character? @relation(fields: [kageId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   @@index([kageId])
 }
