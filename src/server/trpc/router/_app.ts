@@ -1,13 +1,11 @@
-import { router } from "../trpc";
-import { authRouter } from "./auth";
-import { exampleRouter } from "./example";
-import { sectionRouter } from "./sections";
-import { characterRouter } from "./character";
-import { userRouter } from "./user";
-import { villageRouter } from "./villages";
+import { router } from '../trpc';
+import { authRouter } from './auth';
+import { sectionRouter } from './sections';
+import { characterRouter } from './character';
+import { userRouter } from './user';
+import { villageRouter } from './villages';
 
 export const appRouter = router({
-  example: exampleRouter,
   auth: authRouter,
   sections: sectionRouter,
   character: characterRouter,
