@@ -1,0 +1,12 @@
+version: '3.3'
+services:
+    mysql:
+        container_name: dattebayo-db
+        ports:
+            - '3306:3306'
+        environment:
+            - MYSQL_ROOT_PASSWORD=dattebayo
+            - MYSQL_DATABASE=dattebayo
+            - MYSQL_USER=dattebayo
+            - MYSQL_PASSWORD=dattebayo
+        image: 'mysql:latest'
