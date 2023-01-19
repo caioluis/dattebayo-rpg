@@ -6,9 +6,14 @@
     "build": "next build",
     "dev": "next dev",
     "start": "next start",
-    "vercel-build": "prisma generate && prisma migrate deploy && next build",
+    "clean:prisma-client": "rm -R ./node_modules/.prisma/client",
+    "vercel-build": "pnpm clean:prisma-client && prisma generate && prisma migrate deploy && next build",
     "prisma:generate": "prisma generate",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prisma:reset": "dotenv -e .env.test -- pnpm prisma migrate reset --skip-seed --force",
+    "prisma:push": "dotenv -e .env.test -- pnpm prisma db push",
+    "prisma:seed": "pnpm prisma:reset && pnpm prisma:push && dotenv -e .env.test -- pnpm prisma db seed",
+    "test": "pnpm prisma:seed && dotenv -e .env.test -- pnpm vitest"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.7",
