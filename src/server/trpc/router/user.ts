@@ -2,6 +2,10 @@ import { z } from 'zod';
 
 import { router, protectedProcedure } from '../trpc';
 
+function isImage(url) {
+  return /^https?:\/\/.+\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(url);
+}
+
 export const userRouter = router({
   editName: protectedProcedure
     .input(
@@ -88,6 +92,28 @@ export const userRouter = router({
         data: {
           name: input.newName,
           nameWasLastChangedAt: new Date()
+        }
+      });
+    }),
+
+  editImage: protectedProcedure
+    .input(
+      z.object({
+        id: z.string(),
+        newImage: z.string()
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      if (!isImage(input.newImage)) {
+        throw new Error('A URL da imagem não é válida.');
+      }
+
+      return ctx.prisma.user.update({
+        where: {
+          id: input.id
+        },
+        data: {
+          image: input.newImage
         }
       });
     }),
