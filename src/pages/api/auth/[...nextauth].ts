@@ -4,15 +4,14 @@ import DiscordProvider from 'next-auth/providers/discord';
 // Prisma adapter for NextAuth, optional and can be removed
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 
-import { env } from '../../../env/server.mjs';
 import { prisma } from '../../../server/db/client';
 import type { Prisma } from '@prisma/client';
-import { AdapterUser } from 'next-auth/adapters.js';
 import type { JWT } from 'next-auth/jwt/types.js';
 
 interface User {
   id: string;
   name: string | null;
+  nameWasLastChangedAt: Date | null;
   email: string | null;
   emailVerified: Date | null;
   image: string | null;
@@ -31,6 +30,7 @@ export const authOptions: NextAuthOptions = {
       if (session.user) {
         session.user.id = user.id;
         session.user.name = user.name;
+        session.user.nameWasLastChangedAt = user.nameWasLastChangedAt;
         session.user.email = user.email;
         session.user.emailVerified = user.emailVerified;
         session.user.image = user.image;

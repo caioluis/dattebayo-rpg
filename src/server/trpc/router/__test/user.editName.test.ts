@@ -5,7 +5,7 @@ import { describe, expect, test } from 'vitest';
 const user = {
   id: 'cld2aoyco00000hl8u74e33m0',
   name: 'Akihito',
-  nameWasLastChangedAt: '2022-01-17T15:25:31.476Z',
+  nameWasLastChangedAt: new Date('2022-01-17T15:25:31.476Z'),
   email: 'akihito@dattebayo.ninja',
   emailVerified: null,
   image:
