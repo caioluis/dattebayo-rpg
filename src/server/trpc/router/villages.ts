@@ -1,7 +1,7 @@
-import { TRPCError } from '@trpc/server';
-import { z } from 'zod';
+import { TRPCError } from "@trpc/server";
+import { z } from "zod";
 
-import { router, protectedProcedure } from '../trpc';
+import { router, protectedProcedure } from "../trpc";
 
 export const villageRouter = router({
   createVillage: protectedProcedure
@@ -52,10 +52,7 @@ export const villageRouter = router({
         }
       });
       // parallelize the queries
-      const [village, character] = await Promise.all([
-        villagePromise,
-        characterPromise
-      ]);
+      const [village, character] = await Promise.all([villagePromise, characterPromise]);
       if (village) {
         if (village.numberOfNinjas + 1 <= village.maxNumberOfNinjas) {
           const updatedCharacter = ctx.prisma.character.update({
@@ -85,14 +82,14 @@ export const villageRouter = router({
           return Promise.all([updatedCharacter, newVillage, oldVillage]);
         } else {
           throw new TRPCError({
-            code: 'BAD_REQUEST',
-            message: 'Essa vila está cheia!'
+            code: "BAD_REQUEST",
+            message: "Essa vila está cheia!"
           });
         }
       } else {
         throw new TRPCError({
-          code: 'BAD_REQUEST',
-          message: 'Essa vila não existe'
+          code: "BAD_REQUEST",
+          message: "Essa vila não existe"
         });
       }
     })
