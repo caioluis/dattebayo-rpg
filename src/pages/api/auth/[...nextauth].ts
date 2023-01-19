@@ -48,13 +48,14 @@ export const authOptions: NextAuthOptions = {
   providers: [
     DiscordProvider({
       clientId:
-        env.NODE_ENV === 'production'
-          ? env.DISCORD_CLIENT_ID
-          : env.DEV_DISCORD_CLIENT_ID,
+        (process.env.NODE_ENV === 'production'
+          ? process.env.DISCORD_CLIENT_ID
+          : process.env.DEV_DISCORD_CLIENT_ID) ?? 'DISCORD_CLIENT_ID_DUMMY',
       clientSecret:
-        env.NODE_ENV === 'production'
-          ? env.DISCORD_CLIENT_SECRET
-          : env.DEV_DISCORD_CLIENT_SECRET
+        (process.env.NODE_ENV === 'production'
+          ? process.env.DISCORD_CLIENT_SECRET
+          : process.env.DEV_DISCORD_CLIENT_SECRET) ??
+        'DISCORD_CLIENT_SECRET_DUMMY'
     })
   ]
 };
