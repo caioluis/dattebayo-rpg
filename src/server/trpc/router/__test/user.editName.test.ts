@@ -1,36 +1,126 @@
 import { createContextInner } from '../../context';
 import { appRouter } from '../_app';
-import { expect, test } from 'vitest';
+import { describe, expect, test } from 'vitest';
 
 const user = {
-  id: '1',
-  name: 'test',
-  email: 'test@email.com',
+  id: 'cld2aoyco00000hl8u74e33m0',
+  name: 'Akihito',
+  nameWasLastChangedAt: '2022-01-17T15:25:31.476Z',
+  email: 'akihito@dattebayo.ninja',
   emailVerified: null,
-  image: null,
+  image:
+    'https://cdn.discordapp.com/avatars/466564113531666442/2c27cce69f6616c2588de11ac46aa5f3.webp?size=100',
   birthdate: null,
-  narutomakis: 0,
-  currentCharacter: 1,
+  createdAt: new Date('2023-01-18T19:25:31.476Z'),
+  currentCharacter: null,
   maxNumberOfCharacters: 1,
-  createdAt: new Date()
+  narutomakis: 0
 };
 
-test('Edit user name', async () => {
-  const ctx = await createContextInner({
-    session: {
-      user,
-      expires: new Date().toISOString()
+describe('Editing user name', () => {
+  test.fails('should throw error saying the name is too long', async () => {
+    const ctx = await createContextInner({
+      session: {
+        user,
+        expires: new Date().toISOString()
+      }
+    });
+
+    const caller = appRouter.createCaller(ctx);
+
+    const userWithNewUsername = await caller.user.editName({
+      id: 'cld2aoyco00000hl8u74e33m0',
+      currentName: 'Akihito',
+      newName: 'Wesley Alves de Oliveira'
+    });
+
+    console.log(userWithNewUsername);
+    expect(userWithNewUsername);
+  });
+
+  test.fails('should throw error saying the name is too short', async () => {
+    const ctx = await createContextInner({
+      session: {
+        user,
+        expires: new Date().toISOString()
+      }
+    });
+
+    const caller = appRouter.createCaller(ctx);
+
+    const userWithNewUsername = await caller.user.editName({
+      id: 'cld2aoyco00000hl8u74e33m0',
+      currentName: 'Akihito',
+      newName: 'W'
+    });
+
+    console.log(userWithNewUsername);
+    expect(userWithNewUsername);
+  });
+
+  test('should update the user name', async () => {
+    const ctx = await createContextInner({
+      session: {
+        user,
+        expires: new Date().toISOString()
+      }
+    });
+
+    const caller = appRouter.createCaller(ctx);
+
+    const userWithNewUsername = await caller.user.editName({
+      id: 'cld2aoyco00000hl8u74e33m0',
+      currentName: 'Akihito',
+      newName: 'WyAlves'
+    });
+
+    console.log(userWithNewUsername);
+    expect(userWithNewUsername);
+  });
+
+  test.fails(
+    'should throw error if the user name was updated recently',
+    async () => {
+      const ctx = await createContextInner({
+        session: {
+          ...user,
+          expires: new Date().toISOString()
+        }
+      });
+
+      const caller = appRouter.createCaller(ctx);
+
+      const userWithNewUsername = await caller.user.editName({
+        id: 'cld2aoyco00000hl8u74e33m0',
+        currentName: 'WyAlves',
+        newName: 'Akihito'
+      });
+
+      console.log(userWithNewUsername);
+      expect(userWithNewUsername);
     }
-  });
+  );
 
-  const caller = appRouter.createCaller(ctx);
+  test.fails(
+    'should throw error saying there is a user with this name',
+    async () => {
+      const ctx = await createContextInner({
+        session: {
+          user,
+          expires: new Date().toISOString()
+        }
+      });
 
-  const userWithNewUsername = await caller.user.editName({
-    id: '1',
-    currentName: 'test2',
-    newName: 'test'
-  });
+      const caller = appRouter.createCaller(ctx);
 
-  console.log(userWithNewUsername);
-  expect(userWithNewUsername);
+      const userWithNewUsername = await caller.user.editName({
+        id: 'cld2aoyco00000hl8u74e33m0',
+        currentName: 'Akihito',
+        newName: 'WyAlves'
+      });
+
+      console.log(userWithNewUsername);
+      expect(userWithNewUsername);
+    }
+  );
 });
