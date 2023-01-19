@@ -13,7 +13,7 @@ function classNames(...classes: string[]) {
 
 // TODO: refactor entire navbar to use reusable components
 
-export const Navbar = ({ user } : { user: User | null}) => {
+export const Navbar = ({ user }: { user: User | null }) => {
   // placeholder 100x100 image
   const placeholderImage = "https://via.placeholder.com/100x100";
   const userImage = user?.image ?? placeholderImage;
@@ -29,100 +29,89 @@ export const Navbar = ({ user } : { user: User | null}) => {
               <div className="flex items-center">
                 <div className="flex-shrink-0 flex flex-row items-center gap-2 z-index">
                   <div>
-                      <Image
-                        src="/DattebayoLogo.svg"
-                        height={32}
-                        width={32}
-                        alt="Dattebayo!"
-                      />
+                    <Image src="/DattebayoLogo.svg" height={32} width={32} alt="Dattebayo!" />
                   </div>
                   <div>
-                      <Image
-                        src="/DattebayoNameLogo.svg"
-                        height={32}
-                        width={180}
-                        alt="Dattebayo!"
-                      />
+                    <Image src="/DattebayoNameLogo.svg" height={32} width={180} alt="Dattebayo!" />
                   </div>
                 </div>
                 <div className="hidden sm:block sm:ml-6">
                   <div className="flex space-x-4">
                     {/* Current: "bg-neutral-1000 text-white px-3 py-2 rounded-md text-sm font-medium hover:no-underline" */}
-                    <Link href="/"
-                        className={
-                          path === "/"
-                            ? "bg-neutral-1000 text-white px-3 py-2 rounded-md text-sm font-medium no-underline hover:no-underline"
-                            : "text-neutral-300 hover:bg-neutral-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium no-underline hover:no-underline"
-                        }>
-
-                        Início
+                    <Link
+                      href="/"
+                      className={
+                        path === "/"
+                          ? "bg-neutral-1000 text-white px-3 py-2 rounded-md text-sm font-medium no-underline hover:no-underline"
+                          : "text-neutral-300 hover:bg-neutral-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium no-underline hover:no-underline"
+                      }
+                    >
+                      Início
                     </Link>
-                    <Link href="/database"
-                        className={
-                          path === "/database"
-                            ? "bg-neutral-1000 text-white px-3 py-2 rounded-md text-sm font-medium hover:no-underline"
-                            : "text-neutral-300 hover:bg-neutral-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium no-underline hover:no-underline"
-                        }>
-                        Database
+                    <Link
+                      href="/database"
+                      className={
+                        path === "/database"
+                          ? "bg-neutral-1000 text-white px-3 py-2 rounded-md text-sm font-medium hover:no-underline"
+                          : "text-neutral-300 hover:bg-neutral-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium no-underline hover:no-underline"
+                      }
+                    >
+                      Database
                     </Link>
                   </div>
                 </div>
               </div>
-                <div className="hidden sm:ml-6 sm:block">
-                    <div className="flex items-center">
-                    {/* Profile dropdown */}
-                    <Menu as="div" className="ml-3 relative">
-                        <div>
-                        <Menu.Button className="bg-neutral-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-neutral-800 focus:ring-white">
-                            <span className="sr-only">Abrir menu</span>
-                            <Image
-                            className="rounded-full"
-                            height={32}
-                            width={32}
-                            src={userImage}
-                            alt="Foto de perfil"
-                            />
-                        </Menu.Button>
-                        </div>
-                        <Transition
-                        as={Fragment}
-                        enter="transition ease-out duration-100"
-                        enterFrom="transform opacity-0 scale-95"
-                        enterTo="transform opacity-100 scale-100"
-                        leave="transition ease-in duration-75"
-                        leaveFrom="transform opacity-100 scale-100"
-                        leaveTo="transform opacity-0 scale-95"
-                        >
-                        <Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-xl py-1 bg-neutral-800 ring-1 ring-black ring-opacity-5 focus:outline-none">
-                            <Menu.Item>
-                            {({ active }) => (
-                                <Link href="/perfil" className={classNames(
+              <div className="hidden sm:ml-6 sm:block">
+                <div className="flex items-center">
+                  {/* Profile dropdown */}
+                  <Menu as="div" className="ml-3 relative">
+                    <div>
+                      <Menu.Button className="bg-neutral-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-neutral-800 focus:ring-white">
+                        <span className="sr-only">Abrir menu</span>
+                        <Image className="rounded-full" height={32} width={32} src={userImage} alt="Foto de perfil" />
+                      </Menu.Button>
+                    </div>
+                    <Transition
+                      as={Fragment}
+                      enter="transition ease-out duration-100"
+                      enterFrom="transform opacity-0 scale-95"
+                      enterTo="transform opacity-100 scale-100"
+                      leave="transition ease-in duration-75"
+                      leaveFrom="transform opacity-100 scale-100"
+                      leaveTo="transform opacity-0 scale-95"
+                    >
+                      <Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-xl py-1 bg-neutral-800 ring-1 ring-black ring-opacity-5 focus:outline-none">
+                        <Menu.Item>
+                          {({ active }) => (
+                            <Link
+                              href="/perfil"
+                              className={classNames(
                                 active ? "bg-neutral-700" : "",
                                 "block px-4 py-2 text-sm text-neutral-100 no-underline"
-                                )}>
-
-                                    Perfil
-                                </Link>
-                            )}
-                            </Menu.Item>
-                            <Menu.Item>
-                            {({ active }) => (
-                                <button
-                                className={classNames(
-                                    active ? "bg-neutral-700" : "",
-                                    "block px-4 py-2 text-sm text-neutral-100 w-full text-left no-underline"
-                                )}
-                                onClick={() => signOut()}
-                                >
-                                Sair
-                                </button>
-                            )}
-                            </Menu.Item>
-                        </Menu.Items>
-                        </Transition>
-                    </Menu>
-                    </div>
+                              )}
+                            >
+                              Perfil
+                            </Link>
+                          )}
+                        </Menu.Item>
+                        <Menu.Item>
+                          {({ active }) => (
+                            <button
+                              className={classNames(
+                                active ? "bg-neutral-700" : "",
+                                "block px-4 py-2 text-sm text-neutral-100 w-full text-left no-underline"
+                              )}
+                              onClick={() => signOut()}
+                            >
+                              Sair
+                            </button>
+                          )}
+                        </Menu.Item>
+                      </Menu.Items>
+                    </Transition>
+                  </Menu>
                 </div>
+              </div>
               <div className="-mr-2 flex sm:hidden">
                 {/* Mobile menu button */}
                 <Disclosure.Button className="inline-flex items-center justify-center p-2 rounded-md text-neutral-400 hover:text-white hover:bg-neutral-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
@@ -140,52 +129,54 @@ export const Navbar = ({ user } : { user: User | null}) => {
           <Disclosure.Panel className="sm:hidden">
             <div className="px-2 pt-2 pb-3 space-y-1">
               {/* Current: "bg-neutral-900 text-white", Default: "text-neutral-300 hover:bg-neutral-700 hover:text-white" */}
-              <Disclosure.Button as={Link} href="/"  className={
-                    path === "/"
-                      ? "bg-neutral-900 text-white block px-3 py-2 rounded-md text-base font-medium no-underline"
-                      : "text-neutral-300 hover:bg-neutral-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium no-underline"
-                  }>
-
-                  Início
+              <Disclosure.Button
+                as={Link}
+                href="/"
+                className={
+                  path === "/"
+                    ? "bg-neutral-900 text-white block px-3 py-2 rounded-md text-base font-medium no-underline"
+                    : "text-neutral-300 hover:bg-neutral-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium no-underline"
+                }
+              >
+                Início
               </Disclosure.Button>
-              <Disclosure.Button as={Link} href="/database" className={
-                    path === "/database"
-                      ? "bg-neutral-900 text-white block px-3 py-2 rounded-md text-base font-medium no-underline"
-                      : "text-neutral-300 hover:bg-neutral-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium no-underline"
-                  }>
-                  Database
+              <Disclosure.Button
+                as={Link}
+                href="/database"
+                className={
+                  path === "/database"
+                    ? "bg-neutral-900 text-white block px-3 py-2 rounded-md text-base font-medium no-underline"
+                    : "text-neutral-300 hover:bg-neutral-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium no-underline"
+                }
+              >
+                Database
               </Disclosure.Button>
             </div>
             <div className="pt-4 pb-3 border-t border-neutral-700">
               <div className="flex items-center px-5">
                 <div className="flex-shrink-0">
-                  <Image
-                    className="rounded-full"
-                    height={40}
-                    width={40}
-                    src={userImage}
-                    alt="Foto de perfil"
-                  />
+                  <Image className="rounded-full" height={40} width={40} src={userImage} alt="Foto de perfil" />
                 </div>
                 <div className="ml-3">
-                  <div className="text-base font-medium text-white">
-                    {userName}
-                  </div>
+                  <div className="text-base font-medium text-white">{userName}</div>
                 </div>
               </div>
               <div className="mt-3 px-2 space-y-1">
-                  <>
-                    <Disclosure.Button as={Link} href="/perfil" className="block px-3 py-2 rounded-md text-base font-medium text-neutral-400 no-underline hover:text-white hover:bg-neutral-700">
-
-                        Perfil
-
-                    </Disclosure.Button>
-                    <Disclosure.Button className="block px-3 py-2 rounded-md text-base font-medium text-neutral-400 hover:text-white no-underline hover:bg-neutral-700 w-full text-left" onClick={() => signOut()}>
-  
-                        Sair
-
-                    </Disclosure.Button>
-                  </>
+                <>
+                  <Disclosure.Button
+                    as={Link}
+                    href="/perfil"
+                    className="block px-3 py-2 rounded-md text-base font-medium text-neutral-400 no-underline hover:text-white hover:bg-neutral-700"
+                  >
+                    Perfil
+                  </Disclosure.Button>
+                  <Disclosure.Button
+                    className="block px-3 py-2 rounded-md text-base font-medium text-neutral-400 hover:text-white no-underline hover:bg-neutral-700 w-full text-left"
+                    onClick={() => signOut()}
+                  >
+                    Sair
+                  </Disclosure.Button>
+                </>
               </div>
             </div>
           </Disclosure.Panel>

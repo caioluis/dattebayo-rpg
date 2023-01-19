@@ -1,12 +1,12 @@
-import type { Session } from 'next-auth';
-import NextAuth, { type NextAuthOptions } from 'next-auth';
-import DiscordProvider from 'next-auth/providers/discord';
+import type { Session } from "next-auth";
+import NextAuth, { type NextAuthOptions } from "next-auth";
+import DiscordProvider from "next-auth/providers/discord";
 // Prisma adapter for NextAuth, optional and can be removed
-import { PrismaAdapter } from '@next-auth/prisma-adapter';
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
 
-import { prisma } from '../../../server/db/client';
-import type { Prisma } from '@prisma/client';
-import type { JWT } from 'next-auth/jwt/types.js';
+import { prisma } from "../../../server/db/client";
+import type { Prisma } from "@prisma/client";
+import type { JWT } from "next-auth/jwt/types.js";
 
 interface User {
   id: string;
@@ -48,14 +48,12 @@ export const authOptions: NextAuthOptions = {
   providers: [
     DiscordProvider({
       clientId:
-        (process.env.NODE_ENV === 'production'
-          ? process.env.DISCORD_CLIENT_ID
-          : process.env.DEV_DISCORD_CLIENT_ID) ?? 'DISCORD_CLIENT_ID_DUMMY',
+        (process.env.NODE_ENV === "production" ? process.env.DISCORD_CLIENT_ID : process.env.DEV_DISCORD_CLIENT_ID) ??
+        "DISCORD_CLIENT_ID_DUMMY",
       clientSecret:
-        (process.env.NODE_ENV === 'production'
+        (process.env.NODE_ENV === "production"
           ? process.env.DISCORD_CLIENT_SECRET
-          : process.env.DEV_DISCORD_CLIENT_SECRET) ??
-        'DISCORD_CLIENT_SECRET_DUMMY'
+          : process.env.DEV_DISCORD_CLIENT_SECRET) ?? "DISCORD_CLIENT_SECRET_DUMMY"
     })
   ]
 };
