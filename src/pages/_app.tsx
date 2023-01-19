@@ -7,16 +7,13 @@ import { trpc } from "../utils/trpc";
 import "../styles/globals.css";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
-const MyApp: AppType<{ session: Session | null }> = ({
-  Component,
-  pageProps: { session, ...pageProps },
-}) => {
+const MyApp: AppType<{ session: Session | null }> = ({ Component, pageProps: { session, ...pageProps } }) => {
   return (
     <>
-    <ReactQueryDevtools initialIsOpen={true} />
-    <SessionProvider session={session} refetchOnWindowFocus={false}>
-      <Component {...pageProps} />
-    </SessionProvider>
+      <ReactQueryDevtools initialIsOpen={true} />
+      <SessionProvider session={session} refetchOnWindowFocus={false}>
+        <Component {...pageProps} />
+      </SessionProvider>
     </>
   );
 };

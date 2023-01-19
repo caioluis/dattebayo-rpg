@@ -1,7 +1,7 @@
-import { TRPCError } from '@trpc/server';
-import { z } from 'zod';
+import { TRPCError } from "@trpc/server";
+import { z } from "zod";
 
-import { router, protectedProcedure } from '../trpc';
+import { router, protectedProcedure } from "../trpc";
 
 export const characterRouter = router({
   createCharacter: protectedProcedure
@@ -23,20 +23,20 @@ export const characterRouter = router({
 
       if (!user)
         throw new TRPCError({
-          code: 'NOT_FOUND',
-          message: 'Usuário não encontrado'
+          code: "NOT_FOUND",
+          message: "Usuário não encontrado"
         });
 
       if (user.maxNumberOfCharacters - 1 < 0)
         throw new TRPCError({
-          code: 'UNAUTHORIZED',
-          message: 'Você atingiu o limite de personagens'
+          code: "UNAUTHORIZED",
+          message: "Você atingiu o limite de personagens"
         });
 
       const character = await ctx.prisma.character.create({
         data: {
           userId: input.userId,
-          rank: 'Genin'
+          rank: "Genin"
         },
         select: {
           id: true
