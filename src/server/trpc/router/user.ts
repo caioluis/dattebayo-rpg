@@ -118,6 +118,47 @@ export const userRouter = router({
       });
     }),
 
+  editBirthdate: protectedProcedure
+    .input(
+      z.object({
+        id: z.string(),
+        newBirthdate: z.date()
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      const dateToCheck = new Date();
+      dateToCheck.setFullYear(dateToCheck.getFullYear() - 10);
+
+      if (input.newBirthdate >= dateToCheck) {
+        throw new Error(
+          'A data de nascimento não é válida. Você precisa ter 10 anos ou mais.'
+        );
+      }
+
+      // if birthdate is not null, throw error, because it can only be set once. Otherwise, update it.
+      const birthdate = await ctx.prisma.user.findFirst({
+        where: {
+          id: input.id,
+          birthdate: {
+            not: null
+          }
+        }
+      });
+
+      if (birthdate !== null) {
+        throw new Error('A data de nascimento já foi definida.');
+      }
+
+      return ctx.prisma.user.update({
+        where: {
+          id: input.id
+        },
+        data: {
+          birthdate: input.newBirthdate
+        }
+      });
+    }),
+
   setCurrentCharacter: protectedProcedure
     .input(
       z.object({
