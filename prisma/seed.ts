@@ -1,23 +1,22 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 async function main() {
   const Akihito = await prisma.user.upsert({
-    where: { email: 'akihito@dattebayo.ninja' },
+    where: { email: "akihito@dattebayo.ninja" },
     update: {},
     create: {
-      id: 'cld2aoyco00000hl8u74e33m0',
-      name: 'Akihito',
+      id: "cld2aoyco00000hl8u74e33m0",
+      name: "Akihito",
       nameWasLastChangedAt: null,
-      email: 'akihito@dattebayo.ninja',
+      email: "akihito@dattebayo.ninja",
       emailVerified: null,
-      image:
-        'https://cdn.discordapp.com/avatars/466564113531666442/2c27cce69f6616c2588de11ac46aa5f3.webp?size=100',
+      image: "https://cdn.discordapp.com/avatars/466564113531666442/2c27cce69f6616c2588de11ac46aa5f3.webp?size=100",
       birthdate: null,
       narutomakis: 0,
       currentCharacter: null,
       maxNumberOfCharacters: 1,
-      createdAt: '2023-01-18T19:25:31.476Z'
+      createdAt: "2023-01-18T19:25:31.476Z"
     }
   });
   console.log({ Akihito });

@@ -1,10 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto+Slab:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto+Slab:wght@100;200;300;400;500;600;700;800;900&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 * {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
 }
 
 #root {
@@ -14,16 +14,17 @@
   flex-direction: column;
 }
 
-html, body {
+html,
+body {
   height: 100%;
 }
 
 body {
-    background-color: #070606;
-    color: #d4d5d6;
-    font-family: Poppins, sans-serif;
-    display: flex;
-    flex-direction: column;
+  background-color: #070606;
+  color: #d4d5d6;
+  font-family: Poppins, sans-serif;
+  display: flex;
+  flex-direction: column;
 }
 
 #__next {
@@ -33,90 +34,96 @@ body {
 }
 
 a {
-    color: #01acf2;
-    text-decoration: underline;
+  color: #01acf2;
+  text-decoration: underline;
 }
 
 a:hover {
-    color: #048ec4;
+  color: #048ec4;
 }
 
 .ProseMirror {
-	font-family: 'Roboto Slab', serif;
-	font-weight: 300;
-	text-align: justify;
-	outline: none;
-	min-height: 100px;
-  }
-  .ProseMirror strong {
-	font-weight: 700;
-  }
-  .ProseMirror > * + * {
-	margin-top: 0.75em;
-  }
-  .ProseMirror ul, .ProseMirror ol {
-	padding: 0 1rem;
-  }
-  .ProseMirror li {
-	list-style-type: disc;
-	margin-left: 0.5em;
-  }
-  .ProseMirror h2 {
-	font-size: 1.5em;
-  }
-  .ProseMirror h1, .ProseMirror h2, .ProseMirror h3, .ProseMirror h4, .ProseMirror h5, .ProseMirror h6 {
-	line-height: 1.1;
-  }
-  .ProseMirror code {
-	background-color: rgba(97, 97, 97, 0.1);
-	color: #616161;
-  }
-  .ProseMirror pre {
-	background: #0D0D0D;
-	color: #FFF;
-	font-family: 'JetBrainsMono', monospace;
-	padding: 0.75rem 1rem;
-	border-radius: 0.5rem;
-  }
-  .ProseMirror pre code {
-	color: inherit;
-	padding: 0;
-	background: none;
-	font-size: 0.8rem;
-  }
-  .ProseMirror img {
-	max-width: 100%;
-	height: auto;
-  }
-  .ProseMirror blockquote {
-	padding-left: 1rem;
-	border-left: 2px solid #eef1fd;
-  }
-  .ProseMirror hr {
-	border: none;
-	border-top: 2px solid rgba(13, 13, 13, 0.1);
-	margin: 2rem 0;
-  }
-  .editor-container {
-	height: 200px;
-  }
-  ::-webkit-scrollbar {
-	width: 5px;
-	height: 10px;
-  }
-  ::-webkit-scrollbar-thumb {
-	background: #E9A523;
-	border-radius: 100vh;
-	border: 3px solid #E9A523;
-  }
-  ::-webkit-scrollbar-thumb:hover {
-	background: #E9A523;
-  }
+  font-family: "Roboto Slab", serif;
+  font-weight: 300;
+  text-align: justify;
+  outline: none;
+  min-height: 100px;
+}
+.ProseMirror strong {
+  font-weight: 700;
+}
+.ProseMirror > * + * {
+  margin-top: 0.75em;
+}
+.ProseMirror ul,
+.ProseMirror ol {
+  padding: 0 1rem;
+}
+.ProseMirror li {
+  list-style-type: disc;
+  margin-left: 0.5em;
+}
+.ProseMirror h2 {
+  font-size: 1.5em;
+}
+.ProseMirror h1,
+.ProseMirror h2,
+.ProseMirror h3,
+.ProseMirror h4,
+.ProseMirror h5,
+.ProseMirror h6 {
+  line-height: 1.1;
+}
+.ProseMirror code {
+  background-color: rgba(97, 97, 97, 0.1);
+  color: #616161;
+}
+.ProseMirror pre {
+  background: #0d0d0d;
+  color: #fff;
+  font-family: "JetBrainsMono", monospace;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+}
+.ProseMirror pre code {
+  color: inherit;
+  padding: 0;
+  background: none;
+  font-size: 0.8rem;
+}
+.ProseMirror img {
+  max-width: 100%;
+  height: auto;
+}
+.ProseMirror blockquote {
+  padding-left: 1rem;
+  border-left: 2px solid #eef1fd;
+}
+.ProseMirror hr {
+  border: none;
+  border-top: 2px solid rgba(13, 13, 13, 0.1);
+  margin: 2rem 0;
+}
+.editor-container {
+  height: 200px;
+}
+::-webkit-scrollbar {
+  width: 5px;
+  height: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: #e9a523;
+  border-radius: 100vh;
+  border: 3px solid #e9a523;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #e9a523;
+}
 
-  .postON {
-    white-space: normal !important;
-  }
+.postON {
+  white-space: normal !important;
+}
 
-  .postON > * >* + * {
-    margin-top: 0.75em;
-  }
+.postON > * > * + * {
+  margin-top: 0.75em;
+}
