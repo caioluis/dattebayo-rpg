@@ -16,7 +16,62 @@ export const userRouter = router({
         throw new Error('O nome atual é o mesmo que o novo nome.');
       }
 
-      const isThereAnUserWithNewName = await ctx.prisma.user.findUnique({
+      console.log(
+        new Date(
+          Date.now() -
+            1000 *
+              60 *
+              60 *
+              24 *
+              (Number(process.env.USER_NAME_CHANGE_COOLDOWN_DAYS) || 60)
+        )
+      );
+
+      // if the name was changed in the last 60 days, throw an error
+      const lastChange = await ctx.prisma.user.findFirst({
+        where: {
+          id: input.id,
+          name: input.currentName,
+          nameWasLastChangedAt: {
+            gte: new Date(
+              Date.now() -
+                1000 *
+                  60 *
+                  60 *
+                  24 *
+                  (Number(process.env.USER_NAME_CHANGE_COOLDOWN_DAYS) || 60)
+            )
+          }
+        }
+      });
+
+      console.log(lastChange);
+
+      if (lastChange !== null) {
+        throw new Error(
+          'O nome foi alterado nos últimos 60 dias. Por favor, tente novamente mais tarde.'
+        );
+      }
+
+      if (input.newName.length < 2) {
+        throw new Error('O nome deve ter pelo menos 2 caracteres.');
+      }
+
+      if (input.newName.length > 20) {
+        throw new Error('O nome deve ter no máximo 20 caracteres.');
+      }
+
+      if (
+        !/^(?=.{3,20}$)[a-zA-Z][a-zA-Z0-9_.^]*(?: [a-zA-Z0-9]+)*$/.test(
+          input.newName
+        )
+      ) {
+        throw new Error(
+          'O nome não está de acordo com nossa políticas de nomes válidos.'
+        );
+      }
+
+      const isThereAnUserWithNewName = await ctx.prisma.user.findFirst({
         where: {
           name: input.newName
         }
@@ -31,10 +86,12 @@ export const userRouter = router({
           id: input.id
         },
         data: {
-          name: input.newName
+          name: input.newName,
+          nameWasLastChangedAt: new Date()
         }
       });
     }),
+
   setCurrentCharacter: protectedProcedure
     .input(
       z.object({
