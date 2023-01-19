@@ -9,7 +9,7 @@ services:
       - MYSQL_DATABASE=dattebayo
       - MYSQL_USER=dattebayo
       - MYSQL_PASSWORD=dattebayo
-    image: "mysql:latest"
+    image: "mysql:8"
 
   mysql_shadow:
     container_name: dattebayo-db-shadow
@@ -20,4 +20,4 @@ services:
       - MYSQL_DATABASE=dattebayo
       - MYSQL_USER=dattebayo
       - MYSQL_PASSWORD=dattebayo
-    image: "mysql:latest"
+    image: "mysql:8"
