@@ -1,26 +1,25 @@
-import { useReducer } from 'react';
+import { useReducer } from "react";
 
-import Head from 'next/head';
-import Link from 'next/link';
-import { type NextPage } from 'next';
-import { useSession } from 'next-auth/react';
+import Head from "next/head";
+import Link from "next/link";
+import { type NextPage } from "next";
+import { useSession } from "next-auth/react";
 
-import type { User } from '@prisma/client';
+import type { User } from "@prisma/client";
 
-import { trpc } from '../../utils/trpc';
+import { trpc } from "../../utils/trpc";
 
-import Layout from '../../components/Layout';
-import { Loading } from '../../components/navigation';
-import { Register } from '../../components/Register';
-import { NarrowContainer, Container } from '../../components/layout/index';
+import Layout from "../../components/Layout";
+import { Loading } from "../../components/navigation";
+import { Register } from "../../components/Register";
+import { NarrowContainer, Container } from "../../components/layout/index";
 
 const Secao: NextPage = () => {
   const { data: sessionData, status } = useSession();
 
-  const { data: section, status: sectionQueryStatus } =
-    trpc.sections.getSection.useQuery({ id: 1 });
+  const { data: section, status: sectionQueryStatus } = trpc.sections.getSection.useQuery({ id: 1 });
 
-  if (status === 'loading' || sectionQueryStatus === 'loading') {
+  if (status === "loading" || sectionQueryStatus === "loading") {
     return (
       <div className="grid place-items-center h-screen">
         <Loading />
@@ -28,7 +27,7 @@ const Secao: NextPage = () => {
     );
   }
 
-  if (status === 'unauthenticated' || !sessionData?.user) {
+  if (status === "unauthenticated" || !sessionData?.user) {
     return <Register />;
   }
 
@@ -46,13 +45,9 @@ const Secao: NextPage = () => {
           </Container>
         ) : (
           <NarrowContainer>
-            <h1 className="text-5xl text-center mt-10">
-              Esta seção ainda não tem tópicos.
-            </h1>
-            <Link href={''}>
-              <p className="text-3xl text-center mt-10 w-full">
-                Seja o primeiro a criar um!
-              </p>
+            <h1 className="text-5xl text-center mt-10">Esta seção ainda não tem tópicos.</h1>
+            <Link href={""}>
+              <p className="text-3xl text-center mt-10 w-full">Seja o primeiro a criar um!</p>
             </Link>
           </NarrowContainer>
         )}

@@ -1,7 +1,8 @@
 // @ts-check
-import { clientEnv, clientSchema } from "./schema.mjs";
+import { clientEnv, clientSchema, testClientSchema } from "./schema.mjs";
 
-const _clientEnv = clientSchema.safeParse(clientEnv);
+const _clientEnv =
+  process.env.VITE_NODE_ENV == "test" ? testClientSchema.safeParse(clientEnv) : clientSchema.safeParse(clientEnv);
 
 export const formatErrors = (
   /** @type {import('zod').ZodFormattedError<Map<string,string>,string>} */
