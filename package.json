@@ -12,6 +12,7 @@
     "prisma:reset": "dotenv -e .env.test -- pnpm prisma migrate reset --skip-seed --force",
     "prisma:push": "dotenv -e .env.test -- pnpm prisma db push",
     "prisma:seed": "pnpm prisma:reset && pnpm prisma:push && dotenv -e .env.test -- pnpm prisma db seed",
+    "prisma:studio": "dotenv -e .env.test -- pnpm prisma studio",
     "test": "pnpm prisma:seed && dotenv -e .env.test -- pnpm vitest"
   },
   "dependencies": {
