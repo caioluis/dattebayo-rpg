@@ -23,7 +23,8 @@ model Account {
   scope             String?
   id_token          String? @db.Text
   session_state     String?
-  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
   @@index([userId])
@@ -34,42 +35,45 @@ model Session {
   sessionToken String   @unique
   userId       String
   expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
 }
 
 model User {
-  id                    String      @id @default(cuid())
-  name                  String?     @db.VarChar(20)
+  id                    String    @id @default(cuid())
+  name                  String?   @db.VarChar(20)
   nameWasLastChangedAt  DateTime?
-  email                 String?     @unique
+  email                 String?   @unique
   emailVerified         DateTime?
   image                 String?
   birthdate             DateTime?
-  createdAt             DateTime    @default(now())
+  createdAt             DateTime  @default(now())
   currentCharacter      Int?
-  maxNumberOfCharacters Int         @default(1)
-  narutomakis           Decimal?    @default(0.0000) @db.Decimal(13, 4)
-  accounts              Account[]
-  sessions              Session[]
-  Character             Character[]
+  maxNumberOfCharacters Int       @default(1)
+  narutomakis           Decimal?  @default(0.0000) @db.Decimal(13, 4)
+
+  accounts   Account[]
+  sessions   Session[]
+  characters Character[]
 }
 
 model Section {
-  id              Int       @id @default(autoincrement())
+  id              Int     @id @default(autoincrement())
   title           String
   description     String?
   parentSectionId Int?
-  parentSection   Section?  @relation("SectionTree", fields: [parentSectionId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  childSections   Section[] @relation("SectionTree")
-  Topic           Topic[]
+
+  topics        Topic[]
+  parentSection Section?  @relation("SectionTree", fields: [parentSectionId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  childSections Section[] @relation("SectionTree")
 
   @@index([parentSectionId])
 }
 
 model Topic {
-  id              Int       @id @default(autoincrement())
+  id              Int      @id @default(autoincrement())
   title           String
   parentSectionId Int
   characterId     Int
@@ -77,17 +81,18 @@ model Topic {
   characterAvatar String
   charactersCount Int
   wordsCount      Int
-  createdAt       DateTime  @default(now())
-  parentSection   Section   @relation(fields: [parentSectionId], references: [id], onDelete: Cascade)
-  character       Character @relation(fields: [characterId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  Post            Post[]
+  createdAt       DateTime @default(now())
+
+  posts         Post[]
+  parentSection Section   @relation(fields: [parentSectionId], references: [id], onDelete: Cascade)
+  character     Character @relation(fields: [characterId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   @@index([characterId])
   @@index([parentSectionId])
 }
 
 model Post {
-  id              Int       @id @default(autoincrement())
+  id              Int      @id @default(autoincrement())
   topicId         Int
   characterId     Int
   characterName   String
@@ -95,21 +100,22 @@ model Post {
   content         String
   charactersCount Int
   wordsCount      Int
-  createdAt       DateTime  @default(now())
-  topic           Topic     @relation(fields: [topicId], references: [id], onDelete: Cascade)
-  character       Character @relation(fields: [characterId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  createdAt       DateTime @default(now())
+
+  topic     Topic     @relation(fields: [topicId], references: [id], onDelete: Cascade)
+  character Character @relation(fields: [characterId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   @@index([characterId])
   @@index([topicId])
 }
 
 model Character {
-  id              Int       @id @default(autoincrement())
+  id              Int      @id @default(autoincrement())
   userId          String
   name            String?
   avatar          String?
   icon            String?
-  village         Int       @default(0)
+  village         Int      @default(0)
   clan            String?
   rank            String?
   kekkeiGenkai    String?
@@ -122,25 +128,28 @@ model Character {
   photoplayer     String?
   backgroundStory String?
   story           String?
-  createdAt       DateTime  @default(now())
-  user            User      @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  Topic           Topic[]
-  Post            Post[]
-  Village         Village[]
+  createdAt       DateTime @default(now())
+
+  topics   Topic[]
+  posts    Post[]
+  villages Village[]
+
+  user User @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   @@index([userId])
 }
 
 model Village {
-  id                Int        @id @default(autoincrement())
+  id                Int     @id @default(autoincrement())
   name              String
   kageId            Int?
   cardPhoto         String?
-  numberOfNinjas    Int        @default(0)
+  numberOfNinjas    Int     @default(0)
   maxNumberOfNinjas Int
-  portugueseName    String     @default("Vila Oculta da ")
+  portugueseName    String  @default("Vila Oculta da ")
   wallpaper         String?
-  kage              Character? @relation(fields: [kageId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  kage Character? @relation(fields: [kageId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   @@index([kageId])
 }
