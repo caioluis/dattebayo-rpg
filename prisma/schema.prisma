@@ -115,7 +115,7 @@ model Character {
   name            String?
   avatar          String?
   icon            String?
-  village         Int      @default(0)
+  villageId       Int      @default(0)
   clan            String?
   rank            String?
   kekkeiGenkai    String?
@@ -130,13 +130,15 @@ model Character {
   story           String?
   createdAt       DateTime @default(now())
 
-  topics   Topic[]
-  posts    Post[]
-  villages Village[]
+  topics Topic[]
+  posts  Post[]
 
-  user User @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  isKage  Village[] @relation("VillageKage")
+  village Village?  @relation("VillageCitzens", fields: [villageId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  user    User      @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   @@index([userId])
+  @@index([villageId])
 }
 
 model Village {
@@ -149,7 +151,8 @@ model Village {
   portugueseName    String  @default("Vila Oculta da ")
   wallpaper         String?
 
-  kage Character? @relation(fields: [kageId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  citizens Character[] @relation("VillageCitzens")
+  kage     Character?  @relation("VillageKage", fields: [kageId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   @@index([kageId])
 }
