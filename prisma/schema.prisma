@@ -134,7 +134,7 @@ model Character {
   posts  Post[]
 
   isKage  Village[] @relation("VillageKage")
-  village Village?  @relation("VillageCitzens", fields: [villageId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  village Village?  @relation("VillageCitizens", fields: [villageId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   user    User      @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   @@index([userId])
@@ -151,7 +151,7 @@ model Village {
   portugueseName    String  @default("Vila Oculta da ")
   wallpaper         String?
 
-  citizens Character[] @relation("VillageCitzens")
+  citizens Character[] @relation("VillageCitizens")
   kage     Character?  @relation("VillageKage", fields: [kageId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   @@index([kageId])
