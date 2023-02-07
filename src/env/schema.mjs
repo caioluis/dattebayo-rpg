@@ -7,7 +7,7 @@ import { z } from "zod";
  */
 export const serverSchema = z.object({
   DATABASE_URL: z.string().url(),
-  NODE_ENV: z.enum(["development", "test", "production, staging"]),
+  NODE_ENV: z.enum(["development", "test", "production", "staging"]),
   NEXTAUTH_SECRET: process.env.NODE_ENV === "production" ? z.string().min(1) : z.string().min(1).optional(),
   NEXTAUTH_URL: z.preprocess(
     // This makes Vercel deployments not fail if you don't set NEXTAUTH_URL
@@ -21,7 +21,7 @@ export const serverSchema = z.object({
   DEV_DISCORD_CLIENT_ID: z.string(),
   DEV_DISCORD_CLIENT_SECRET: z.string(),
   VITE_DATABASE_URL: z.string().url(),
-  VITE_NODE_ENV: z.enum(["development", "test", "production, staging"]),
+  VITE_NODE_ENV: z.enum(["development", "test", "production", "staging"]),
   VITE_NEXTAUTH_SECRET: process.env.NODE_ENV === "production" ? z.string().min(1) : z.string().min(1).optional(),
   VITE_NEXTAUTH_URL: z.preprocess(
     // This makes Vercel deployments not fail if you don't set NEXTAUTH_URL
