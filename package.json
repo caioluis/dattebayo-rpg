@@ -9,11 +9,11 @@
     "vercel-build": "prisma generate && prisma migrate deploy && next build",
     "prisma:generate": "prisma generate",
     "lint": "next lint",
-    "prisma:reset": "dotenv -e .env.test -- pnpm prisma migrate reset --skip-seed --force",
-    "prisma:push": "dotenv -e .env.test -- pnpm prisma db push",
-    "prisma:seed": "pnpm prisma:reset && pnpm prisma:push && dotenv -e .env.test -- pnpm prisma db seed",
-    "prisma:studio": "dotenv -e .env.test -- pnpm prisma studio",
-    "test": "pnpm prisma:seed && dotenv -e .env.test -- pnpm vitest"
+    "prisma:reset": "pnpm prisma migrate reset --skip-seed --force",
+    "prisma:push": "pnpm prisma db push",
+    "prisma:seed": "pnpm prisma:reset && pnpm prisma:push && pnpm prisma db seed",
+    "prisma:studio": "pnpm prisma studio",
+    "test": "infisical -env=test run -- pnpm prisma:seed && pnpm vitest"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.7",
