@@ -96,7 +96,7 @@ export const characterRouter = router({
         },
         select: {
           id: true,
-          village: true
+          villageId: true
         }
       });
     })
