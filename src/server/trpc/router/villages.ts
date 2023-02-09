@@ -48,7 +48,7 @@ export const villageRouter = router({
         },
         select: {
           id: true,
-          village: true
+          villageId: true
         }
       });
       // parallelize the queries
@@ -60,7 +60,7 @@ export const villageRouter = router({
               id: input.characterId
             },
             data: {
-              village: village.id
+              villageId: village.id
             }
           });
           const newVillage = ctx.prisma.village.update({
@@ -73,7 +73,7 @@ export const villageRouter = router({
           });
           const oldVillage = ctx.prisma.village.update({
             where: {
-              id: character?.village
+              id: character?.villageId
             },
             data: {
               numberOfNinjas: { decrement: 1 }

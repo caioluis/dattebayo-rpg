@@ -29,7 +29,7 @@ const ChooseYourVillage: NextPage = ({
     );
   const { mutateAsync: joinVillage, status: joinVillageMutationStatus } = trpc.village.joinVillage.useMutation();
 
-  const currentVillage = character?.village;
+  const currentVillage = character?.villageId;
 
   const [characterVillage, setCharacterVillage] = useState<number | null>(null);
 
