@@ -5,8 +5,8 @@
   "scripts": {
     "build": "next build",
     "dev": "next dev",
-    "start": "infisical run -- next start",
-    "vercel-build": "prisma generate && prisma migrate deploy && next build",
+    "start": "next start",
+    "vercel-build": "infisical run -- prisma generate && prisma migrate deploy && next build",
     "prisma:generate": "prisma generate",
     "lint": "next lint",
     "prisma:reset": "pnpm prisma migrate reset --skip-seed --force",
