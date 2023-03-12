@@ -1,27 +1,34 @@
-# Create T3 App
+# _Dattebayo!_
 
-This is an app bootstrapped according to the [init.tips](https://init.tips) stack, also known as the T3-Stack.
+_Dattebayo!_ is a Play-by-Post RPG that extends the universe of Naruto, created by Masashi Kishimoto.
 
-## What's next? How do I make an app with this?
+Play-by-post RPGs are online versions of tabletop role-playing games, where players take on the roles of characters and participate in a story that is written collaboratively through a series of posts in a forum or on a message board. Each player takes turns making posts that describe the actions and decisions of their character, and the story progresses as players respond to each other's posts. This format allows for a more leisurely pace and a more detailed, text-based form of role-playing than is possible in real-time games.
 
-We try to keep this project as simple as possible, so you can start with the most basic configuration and then move on to more advanced configuration.
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+## Installation
 
-- [Next-Auth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [TailwindCSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+The package manager used in this project is pnpm. To get started, first install [pnpm](https://pnpm.io/installation) and follow the steps below.
 
-We also [roll our own docs](https://create.t3.gg) with some summary information and links to the respective documentation.
+To install all dependencies, run the install command as usual:
+```bash
+pnpm install
+```
 
-Also checkout these awesome tutorials on `create-t3-app`.
+For local development, you should also have Docker running locally. [Get started with Docker](https://www.docker.com/get-started/), then continue this guide.
 
-- [Build a Blog With the T3 Stack - tRPC, TypeScript, Next.js, Prisma & Zod](https://www.youtube.com/watch?v=syEWlxVFUrY)
-- [Build a Live Chat Application with the T3 Stack - TypeScript, Tailwind, tRPC](https://www.youtube.com/watch?v=dXRRY37MPuk)
-- [Build a full stack app with create-t3-app](https://www.nexxel.dev/blog/ct3a-guestbook)
-- [A first look at create-t3-app](https://dev.to/ajcwebdev/a-first-look-at-create-t3-app-1i8f)
+The following command sets up our Docker environment
+```bash
+docker-compose up -d
+```
 
-## How do I deploy this?
+## Usage
 
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+TBD
+
+
+## Contributing
+
+Pull requests are welcome. For major changes, please open an issue first
+to discuss what you would like to change.
+
+Please make sure to update tests as appropriate. There are no guidelines yet.
