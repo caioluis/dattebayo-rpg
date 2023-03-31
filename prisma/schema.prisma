@@ -10,60 +10,11 @@ datasource db {
   relationMode      = "prisma"
 }
 
-model Account {
-  id                String  @id @default(cuid())
-  userId            String
-  type              String
-  provider          String
-  providerAccountId String
-  refresh_token     String? @db.Text
-  access_token      String? @db.Text
-  expires_at        Int?
-  token_type        String?
-  scope             String?
-  id_token          String? @db.Text
-  session_state     String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@unique([provider, providerAccountId])
-  @@index([userId])
-}
-
-model Session {
-  id           String   @id @default(cuid())
-  sessionToken String   @unique
-  userId       String
-  expires      DateTime
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@index([userId])
-}
-
-model User {
-  id                    String    @id @default(cuid())
-  name                  String?   @db.VarChar(20)
-  nameWasLastChangedAt  DateTime?
-  email                 String?   @unique
-  emailVerified         DateTime?
-  image                 String?
-  birthdate             DateTime?
-  createdAt             DateTime  @default(now())
-  currentCharacter      Int?
-  maxNumberOfCharacters Int       @default(1)
-  narutomakis           Decimal?  @default(0.0000) @db.Decimal(13, 4)
-
-  accounts   Account[]
-  sessions   Session[]
-  characters Character[]
-}
-
 model Section {
-  id              Int     @id @default(autoincrement())
-  title           String
-  description     String?
-  parentSectionId Int?
+  id              Int     @id @default(autoincrement()) @db.TinyInt
+  title           String  @db.VarChar(80)
+  description     String? @db.VarChar(255)
+  parentSectionId Int?    @db.TinyInt
 
   topics        Topic[]
   parentSection Section?  @relation("SectionTree", fields: [parentSectionId], references: [id], onDelete: NoAction, onUpdate: NoAction)
@@ -74,13 +25,13 @@ model Section {
 
 model Topic {
   id              Int      @id @default(autoincrement())
-  title           String
-  parentSectionId Int
-  characterId     Int
-  characterName   String
+  title           String   @db.VarChar(80)
+  parentSectionId Int      @db.TinyInt
+  characterId     Int      @db.SmallInt
+  characterName   String   @db.VarChar(70)
   characterAvatar String
-  charactersCount Int
-  wordsCount      Int
+  charactersCount Int      @db.SmallInt
+  wordsCount      Int      @db.SmallInt
   createdAt       DateTime @default(now())
 
   posts         Post[]
@@ -92,14 +43,14 @@ model Topic {
 }
 
 model Post {
-  id              Int      @id @default(autoincrement())
-  topicId         Int
-  characterId     Int
-  characterName   String
+  id              Int      @id @default(autoincrement()) @db.MediumInt
+  topicId         Int      @db.MediumInt
+  characterId     Int      @db.SmallInt
+  characterName   String   @db.VarChar(70)
   characterAvatar String
-  content         String
-  charactersCount Int
-  wordsCount      Int
+  content         String   @db.Text
+  charactersCount Int      @db.SmallInt
+  wordsCount      Int      @db.SmallInt
   createdAt       DateTime @default(now())
 
   topic     Topic     @relation(fields: [topicId], references: [id], onDelete: Cascade)
@@ -111,43 +62,42 @@ model Post {
 
 model Character {
   id              Int      @id @default(autoincrement())
-  userId          String
-  name            String?
+  userId          String   @unique
+  name            String?  @db.VarChar(70)
   avatar          String?
   icon            String?
   villageId       Int      @default(0)
-  clan            String?
+  clan            String?  @db.VarChar(10)
   rank            String?
-  kekkeiGenkai    String?
-  age             Int?
-  height          Int?
-  weight          Int?
-  gender          String?
-  personality     String?
-  appearance      String?
+  kekkeiGenkai    String?  @db.VarChar(20)
+  age             Int?     @db.TinyInt
+  height          Int?     @db.TinyInt
+  weight          Int?     @db.TinyInt
+  gender          String?  @db.VarChar(40)
+  personality     String?  @db.Text
+  appearance      String?  @db.Text
   photoplayer     String?
-  backgroundStory String?
-  story           String?
+  backgroundStory String?  @db.Text
+  story           String?  @db.Text
   createdAt       DateTime @default(now())
 
   topics Topic[]
   posts  Post[]
 
   village Village @relation(fields: [villageId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  user    User    @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   @@index([userId])
   @@index([villageId])
 }
 
 model Village {
-  id                Int     @id @default(autoincrement())
-  name              String
-  kageId            Int?
+  id                Int     @id @default(autoincrement()) @db.TinyInt
+  name              String  @db.VarChar(70)
+  kageId            Int?    @db.SmallInt
   cardPhoto         String?
-  numberOfNinjas    Int     @default(0)
-  maxNumberOfNinjas Int
-  portugueseName    String  @default("Vila Oculta da ")
+  numberOfNinjas    Int     @default(0) @db.SmallInt
+  maxNumberOfNinjas Int     @db.SmallInt
+  portugueseName    String  @default("Vila Oculta da ") @db.VarChar(100)
   wallpaper         String?
 
   ninjas Character[]
