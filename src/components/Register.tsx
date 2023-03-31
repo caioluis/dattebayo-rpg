@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { signIn } from "next-auth/react";
+import { SignIn } from "@clerk/nextjs";
 
 export const Register = () => {
   return (
@@ -29,33 +29,28 @@ export const Register = () => {
                 Seja bem-vindo ao <em>Dattebayo!</em>, O RPG de Naruto mais completo da internet.
               </p>
             </div>
-            <hr className="w-[60%] border-none bg-[#F29B30] h-1 rounded shadow-[0px_0px_14px_#F29B30]" />
-            <p className="text-center font-semibold m-2 mt-5 xl:text-3xl">
-              Para começar, você precisa criar uma conta.
-              <br />É rápido e fácil!
-            </p>
-            <SignInButton />
+            <hr className="w-[60%] border-none bg-[#F29B30] h-1 rounded shadow-[0px_0px_14px_#F29B30] mb-4" />
+            <SignIn
+              path="/sign-in"
+              routing="path"
+              appearance={{
+                layout: {
+                  socialButtonsVariant: "blockButton"
+                },
+                elements: {
+                  header: "hidden",
+                  card: "max-w-[calc(100vw-2rem)] flex flex-row justify-center px-0.5 py-3 items-center",
+                  socialButtons: "min-w-[108%] ml-[-5%]",
+                  socialButtonsBlockButtonArrow: "hidden",
+                  socialButtonsBlockButton: "m-0",
+                  socialButtonsProviderIcon: "w-7 h-7",
+                  footer: "hidden"
+                }
+              }}
+            />
           </div>
         </div>
       </main>
     </>
-  );
-};
-
-const SignInButton: React.FC = () => {
-  return (
-    <button
-      className="flex items-center gap-4 bg-[#5865F2] font-semibold text-white rounded-lg px-2 py-1 sm:px-3 sm:py-1 xl:text-xl 2xl:text-2xl 3xl:text-3xl 3xl:px-10 3xl:py-4"
-      onClick={() => signIn("discord")}
-    >
-      Cadastre-se ou faça Login
-      <Image
-        src="/discord-mark-white.svg"
-        alt="Cadastro pelo Discord"
-        width={24}
-        height={24}
-        className="z-[4] mx-auto my-4"
-      />
-    </button>
   );
 };

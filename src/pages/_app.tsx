@@ -1,19 +1,29 @@
-import { type AppType } from "next/app";
-import { type Session } from "next-auth";
-import { SessionProvider } from "next-auth/react";
+import { ClerkProvider } from "@clerk/nextjs";
+import type { AppProps } from "next/app";
+import { ptBR } from "@clerk/localizations";
+import { dark } from "@clerk/themes";
 
 import { trpc } from "../utils/trpc";
 
 import "../styles/globals.css";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { useRouter } from "next/router";
 
-const MyApp: AppType<{ session: Session | null }> = ({ Component, pageProps: { session, ...pageProps } }) => {
+const MyApp = ({ Component, pageProps }: AppProps) => {
+  const router = useRouter();
   return (
     <>
       <ReactQueryDevtools initialIsOpen={true} />
-      <SessionProvider session={session} refetchOnWindowFocus={false}>
+      <ClerkProvider
+        {...pageProps}
+        localization={ptBR}
+        appearance={{
+          baseTheme: dark
+        }}
+        navigate={(to) => router.push(to)}
+      >
         <Component {...pageProps} />
-      </SessionProvider>
+      </ClerkProvider>
     </>
   );
 };

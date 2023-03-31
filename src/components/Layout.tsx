@@ -1,9 +1,15 @@
-import type { User } from "@prisma/client";
 import Head from "next/head";
 import { Navbar } from "./navigation/index";
 import { FooterSocialLinksOnly } from "./pageSections/index";
+import type { UserResource } from "@clerk/types";
 
-export default function Layout({ children, user }: { children: JSX.Element | JSX.Element[]; user: User | null }) {
+export default function Layout({
+  children,
+  user
+}: {
+  children: JSX.Element | JSX.Element[];
+  user: UserResource | null;
+}) {
   return (
     <>
       <Head>

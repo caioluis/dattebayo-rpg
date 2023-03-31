@@ -1,10 +1,7 @@
 import Image from "next/image";
 import type { NextPage } from "next";
-import { useSession } from "next-auth/react";
 
 import { useEffect } from "react";
-
-import type { User } from "@prisma/client";
 
 import Layout from "../components/Layout";
 import ChooseYourVillage from "../components/criar-ficha/ChooseVillage";
@@ -12,6 +9,7 @@ import RandomPage from "../components/criar-ficha/RandomComponent";
 import { Container } from "../components/layout/index";
 import { Loading } from "../components/navigation";
 import { useLocalStorage } from "../hooks/useLocalStorage";
+import { RedirectToSignIn, useUser } from "@clerk/nextjs";
 
 const CreationViews = {
   1: ChooseYourVillage,
@@ -20,11 +18,12 @@ const CreationViews = {
 
 const CriarFicha: NextPage = () => {
   const [stage, setStage] = useLocalStorage("characterSheetCreationStage", 1);
-  const { data: session, status: sessionQueryStatus } = useSession();
 
   useEffect(() => console.log("Stage changed!"), [stage]);
 
-  if (sessionQueryStatus == "unauthenticated" || session?.user == null) {
+  const { user, isLoaded, isSignedIn } = useUser();
+
+  if (!isLoaded) {
     return (
       <div className="grid place-items-center h-screen">
         <Loading />
@@ -32,7 +31,10 @@ const CriarFicha: NextPage = () => {
     );
   }
 
-  const user: User = session?.user;
+  if (!isSignedIn) {
+    console.log("Redirecting to sign in...");
+    return <RedirectToSignIn />;
+  }
 
   const CreationStageView = CreationViews[stage] ?? ChooseYourVillage;
 

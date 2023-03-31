@@ -1,11 +1,14 @@
 import { Fragment } from "react";
+
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+
+import { useRouter } from "next/router";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/router";
-import type { User } from "@prisma/client";
-import { signOut } from "next-auth/react";
+
+import { useClerk } from "@clerk/nextjs";
+import type { UserResource } from "@clerk/types";
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
@@ -13,11 +16,19 @@ function classNames(...classes: string[]) {
 
 // TODO: refactor entire navbar to use reusable components
 
-export const Navbar = ({ user }: { user: User | null }) => {
+export const Navbar = ({ user }: { user: UserResource | null }) => {
+  const { signOut } = useClerk();
+
+  console.log(user);
+
   // placeholder 100x100 image
-  const placeholderImage = "https://via.placeholder.com/100x100";
-  const userImage = user?.image ?? placeholderImage;
-  const userName = user?.name ?? "Visitante";
+  let userImage = "https://via.placeholder.com/100x100";
+  let userName = "Visitante";
+
+  if (user) {
+    userImage = user.profileImageUrl;
+    userName = user.username as string;
+  }
 
   const path = useRouter().pathname;
   return (
@@ -64,11 +75,13 @@ export const Navbar = ({ user }: { user: User | null }) => {
               <div className="hidden sm:ml-6 sm:block">
                 <div className="flex items-center">
                   {/* Profile dropdown */}
-                  <Menu as="div" className="ml-3 relative">
+                  <Menu as="div" className="ml-3 relative z-[5]">
                     <div>
                       <Menu.Button className="bg-neutral-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-neutral-800 focus:ring-white">
                         <span className="sr-only">Abrir menu</span>
-                        <Image className="rounded-full" height={32} width={32} src={userImage} alt="Foto de perfil" />
+                        <div className="w-8 h-8">
+                          <Image className="rounded-full" src={userImage} fill alt="Foto de perfil" />
+                        </div>
                       </Menu.Button>
                     </div>
                     <Transition
@@ -155,7 +168,9 @@ export const Navbar = ({ user }: { user: User | null }) => {
             <div className="pt-4 pb-3 border-t border-neutral-700">
               <div className="flex items-center px-5">
                 <div className="flex-shrink-0">
-                  <Image className="rounded-full" height={40} width={40} src={userImage} alt="Foto de perfil" />
+                  <div className="relative w-8 h-8">
+                    <Image className="rounded-full" fill src={userImage} alt="Foto de perfil" />
+                  </div>
                 </div>
                 <div className="ml-3">
                   <div className="text-base font-medium text-white">{userName}</div>

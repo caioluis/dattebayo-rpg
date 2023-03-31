@@ -1,15 +1,15 @@
-import type { User } from "@prisma/client";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
 import { trpc } from "../../utils/trpc";
+import type { UserResource } from "@clerk/types";
 
-export const CallToCreateCharacter = ({ userId }: { userId: User["id"] }) => {
+export const CallToCreateCharacter = ({ userId }: { userId: UserResource["id"] }) => {
   const router = useRouter();
 
   const createCharacterMutation = trpc.character.createCharacter.useMutation();
 
-  const handleCharacterCreation = async (userId: User["id"]) => {
+  const handleCharacterCreation = async (userId: UserResource["id"]) => {
     await createCharacterMutation.mutateAsync(
       {
         userId
