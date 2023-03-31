@@ -18,8 +18,6 @@ export const serverSchema = z.object({
   ),
   DISCORD_CLIENT_ID: z.string(),
   DISCORD_CLIENT_SECRET: z.string(),
-  DEV_DISCORD_CLIENT_ID: z.string(),
-  DEV_DISCORD_CLIENT_SECRET: z.string(),
   VITE_DATABASE_URL: z.string().url(),
   VITE_NODE_ENV: z.enum(["development", "test", "production", "staging"]),
   VITE_NEXTAUTH_SECRET: process.env.NODE_ENV === "production" ? z.string().min(1) : z.string().min(1).optional(),
@@ -31,9 +29,7 @@ export const serverSchema = z.object({
     process.env.VERCEL ? z.string() : z.string().url()
   ),
   VITE_DISCORD_CLIENT_ID: z.string(),
-  VITE_DISCORD_CLIENT_SECRET: z.string(),
-  VITE_DEV_DISCORD_CLIENT_ID: z.string(),
-  VITE_DEV_DISCORD_CLIENT_SECRET: z.string()
+  VITE_DISCORD_CLIENT_SECRET: z.string()
 });
 
 /**
