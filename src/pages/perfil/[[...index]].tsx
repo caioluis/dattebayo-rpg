@@ -1,6 +1,5 @@
-import { ClerkProvider, RedirectToSignIn, SignedIn, SignedOut, UserProfile } from "@clerk/nextjs";
+import { useUser, RedirectToSignIn, SignedIn, SignedOut, UserProfile } from "@clerk/nextjs";
 import Layout from "../../components/Layout";
-import { useUser } from "@clerk/nextjs";
 import { type NextPage } from "next";
 import Image from "next/image";
 import { Container, NarrowContainer } from "../../components/layout/index";

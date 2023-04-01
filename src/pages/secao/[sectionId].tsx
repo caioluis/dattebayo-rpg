@@ -20,7 +20,7 @@ const Secao: NextPage = () => {
     );
   }
 
-  const allSections = section?.allSections;
+  // const allSections = section?.allSections;
   const allTopics = section?.allTopics ?? [];
 
   return (
