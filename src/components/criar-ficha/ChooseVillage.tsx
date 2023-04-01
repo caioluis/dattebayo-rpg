@@ -5,12 +5,13 @@ import { Loading } from "../../components/navigation";
 import { trpc } from "../../utils/trpc";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import type { UserResource } from "@clerk/types";
 
 const ChooseYourVillage: NextPage = ({
   user,
   setStage
 }: {
-  user: User | null;
+  user: UserResource | null;
   setStage: React.Dispatch<React.SetStateAction<number>>;
 }) => {
   const router = useRouter();
@@ -18,7 +19,7 @@ const ChooseYourVillage: NextPage = ({
   const { data: character, status: getCurrentCharacterQueryStatus } =
     trpc.character.getCurrentCharacterVillage.useQuery(
       {
-        currentCharacter: user?.currentCharacter
+        currentCharacter: user?.publicMetadata?.currentCharacter as number | undefined | null
       },
       {
         onError: () => {
