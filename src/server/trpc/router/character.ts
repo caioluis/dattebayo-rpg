@@ -1,5 +1,6 @@
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
+import { clerkClient } from "@clerk/nextjs/server";
 
 import { router, protectedProcedure } from "../trpc";
 
@@ -11,15 +12,7 @@ export const characterRouter = router({
       })
     )
     .mutation(async ({ input, ctx }) => {
-      const user = await ctx.prisma.user.findUnique({
-        where: {
-          id: input.userId
-        },
-        select: {
-          currentCharacter: true,
-          maxNumberOfCharacters: true
-        }
-      });
+      const user = ctx.auth.user;
 
       if (!user)
         throw new TRPCError({
@@ -27,7 +20,7 @@ export const characterRouter = router({
           message: "Usuário não encontrado"
         });
 
-      if (user.maxNumberOfCharacters - 1 < 0)
+      if ((user.publicMetadata?.maxNumberOfCharacters as number) - 1 < 0)
         throw new TRPCError({
           code: "UNAUTHORIZED",
           message: "Você atingiu o limite de personagens"
@@ -43,13 +36,10 @@ export const characterRouter = router({
         }
       });
 
-      await ctx.prisma.user.update({
-        where: {
-          id: input.userId
-        },
-        data: {
-          maxNumberOfCharacters: user.maxNumberOfCharacters - 1,
-          currentCharacter: character.id
+      await clerkClient.users.updateUser(input.userId, {
+        publicMetadata: {
+          currentCharacterId: character.id,
+          maxNumberOfCharacters: (user.publicMetadata.NumberOfCharacters as number) - 1
         }
       });
 
