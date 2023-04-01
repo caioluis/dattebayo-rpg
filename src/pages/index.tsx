@@ -1,7 +1,3 @@
-// I turned on the eslint-disable because Typescript does not know that inside SignedIn is impossible
-// for user to be undefined, but I don't know how to tell Typescript that.
-
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import Image from "next/image";
 import { type NextPage } from "next";
 import { RedirectToSignIn, SignedIn, SignedOut, useUser } from "@clerk/nextjs";
@@ -47,7 +43,7 @@ const Home: NextPage = () => {
           </div>
           <Container>
             <NarrowContainer>
-              <>{!userHasCharacter && <CallToCreateCharacter userId={user!.id} />}</>
+              <>{!userHasCharacter && <CallToCreateCharacter userId={user?.id} />}</>
               <Mural />
               <RegrasETutoriais />
             </NarrowContainer>

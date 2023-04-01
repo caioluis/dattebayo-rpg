@@ -4,12 +4,13 @@ import { useRouter } from "next/router";
 import { trpc } from "../../utils/trpc";
 import type { UserResource } from "@clerk/types";
 
-export const CallToCreateCharacter = ({ userId }: { userId: UserResource["id"] }) => {
+export const CallToCreateCharacter = ({ userId }: { userId: UserResource["id"] | undefined }) => {
   const router = useRouter();
 
   const createCharacterMutation = trpc.character.createCharacter.useMutation();
 
-  const handleCharacterCreation = async (userId: UserResource["id"]) => {
+  const handleCharacterCreation = async (userId: UserResource["id"] | undefined) => {
+    if (!userId) return;
     await createCharacterMutation.mutateAsync(
       {
         userId
