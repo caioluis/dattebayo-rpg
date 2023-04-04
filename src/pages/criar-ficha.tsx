@@ -10,6 +10,8 @@ import { Container } from "../components/layout/index";
 import { Loading } from "../components/navigation";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import { RedirectToSignIn, useUser } from "@clerk/nextjs";
+import Background from "../components/layout/Background";
+import NarrowContainer from "../components/layout/NarrowContainer";
 
 const CreationViews = {
   1: ChooseYourVillage,
@@ -32,7 +34,6 @@ const CriarFicha: NextPage = () => {
   }
 
   if (!isSignedIn) {
-    console.log("Redirecting to sign in...");
     return <RedirectToSignIn />;
   }
 
@@ -40,20 +41,8 @@ const CriarFicha: NextPage = () => {
 
   return (
     <Layout user={user}>
-      <div className="flex flex-1 z-[-1]">
-        <Image
-          src="/wallpaperFicha.png"
-          alt="Background"
-          fill={true}
-          className="aspect-w-16 aspect-h-9 object-cover grayscale"
-          style={{
-            WebkitMaskImage: "-webkit-gradient(linear, left top, left bottom, from(rgba(0,0,0,1)), to(rgba(0,0,0,0)))"
-          }}
-        />
-      </div>
-      <Container>
-        <CreationStageView user={user} setStage={setStage} />
-      </Container>
+      <Background src="/wallpaperFicha.png" />
+      <CreationStageView user={user} setStage={setStage} />
     </Layout>
   );
 };

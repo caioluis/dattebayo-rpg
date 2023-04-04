@@ -14,12 +14,35 @@ function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
 
-// TODO: refactor entire navbar to use reusable components
+const NavLink = ({ pathRouter, linkPath, label }: { pathRouter: string; linkPath: string; label: string }) => (
+  <Link
+    href={linkPath}
+    className={
+      pathRouter === linkPath
+        ? "bg-neutral-1000 text-white px-3 py-2 rounded-md text-sm font-medium no-underline hover:no-underline"
+        : "text-neutral-300 hover:bg-neutral-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium no-underline hover:no-underline"
+    }
+  >
+    {label}
+  </Link>
+);
+
+const NavLinkMobile = ({ pathRouter, linkPath, label }: { pathRouter: string; linkPath: string; label: string }) => (
+  <Disclosure.Button
+    as={Link}
+    href={linkPath}
+    className={
+      pathRouter === linkPath
+        ? "bg-neutral-900 text-white block px-3 py-2 rounded-md text-base font-medium no-underline"
+        : "text-neutral-300 hover:bg-neutral-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium no-underline"
+    }
+  >
+    {label}
+  </Disclosure.Button>
+);
 
 export const Navbar = ({ user }: { user: UserResource | null }) => {
   const { signOut } = useClerk();
-
-  console.log(user);
 
   // placeholder 100x100 image
   let userImage = "https://via.placeholder.com/100x100";
@@ -48,27 +71,11 @@ export const Navbar = ({ user }: { user: UserResource | null }) => {
                 </div>
                 <div className="hidden sm:block sm:ml-6">
                   <div className="flex space-x-4">
-                    {/* Current: "bg-neutral-1000 text-white px-3 py-2 rounded-md text-sm font-medium hover:no-underline" */}
-                    <Link
-                      href="/"
-                      className={
-                        path === "/"
-                          ? "bg-neutral-1000 text-white px-3 py-2 rounded-md text-sm font-medium no-underline hover:no-underline"
-                          : "text-neutral-300 hover:bg-neutral-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium no-underline hover:no-underline"
-                      }
-                    >
-                      Início
-                    </Link>
-                    <Link
-                      href="/database"
-                      className={
-                        path === "/database"
-                          ? "bg-neutral-1000 text-white px-3 py-2 rounded-md text-sm font-medium hover:no-underline"
-                          : "text-neutral-300 hover:bg-neutral-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium no-underline hover:no-underline"
-                      }
-                    >
-                      Database
-                    </Link>
+                    <NavLink pathRouter={path} linkPath="/" label="Início" />
+                    <NavLink pathRouter={path} linkPath="/database" label="Database" />
+                    {user?.publicMetadata?.cargos == "admin" && (
+                      <NavLink pathRouter={path} linkPath="/admin" label="Painel administrativo" />
+                    )}
                   </div>
                 </div>
               </div>
@@ -141,29 +148,9 @@ export const Navbar = ({ user }: { user: UserResource | null }) => {
 
           <Disclosure.Panel className="sm:hidden">
             <div className="px-2 pt-2 pb-3 space-y-1">
-              {/* Current: "bg-neutral-900 text-white", Default: "text-neutral-300 hover:bg-neutral-700 hover:text-white" */}
-              <Disclosure.Button
-                as={Link}
-                href="/"
-                className={
-                  path === "/"
-                    ? "bg-neutral-900 text-white block px-3 py-2 rounded-md text-base font-medium no-underline"
-                    : "text-neutral-300 hover:bg-neutral-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium no-underline"
-                }
-              >
-                Início
-              </Disclosure.Button>
-              <Disclosure.Button
-                as={Link}
-                href="/database"
-                className={
-                  path === "/database"
-                    ? "bg-neutral-900 text-white block px-3 py-2 rounded-md text-base font-medium no-underline"
-                    : "text-neutral-300 hover:bg-neutral-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium no-underline"
-                }
-              >
-                Database
-              </Disclosure.Button>
+              <NavLinkMobile pathRouter={path} linkPath="/" label="Início" />
+              <NavLinkMobile pathRouter={path} linkPath="/database" label="Database" />
+              <NavLinkMobile pathRouter={path} linkPath="/admin" label="Painel administrativo" />
             </div>
             <div className="pt-4 pb-3 border-t border-neutral-700">
               <div className="flex items-center px-5">
@@ -178,19 +165,8 @@ export const Navbar = ({ user }: { user: UserResource | null }) => {
               </div>
               <div className="mt-3 px-2 space-y-1">
                 <>
-                  <Disclosure.Button
-                    as={Link}
-                    href="/perfil"
-                    className="block px-3 py-2 rounded-md text-base font-medium text-neutral-400 no-underline hover:text-white hover:bg-neutral-700"
-                  >
-                    Perfil
-                  </Disclosure.Button>
-                  <Disclosure.Button
-                    className="block px-3 py-2 rounded-md text-base font-medium text-neutral-400 hover:text-white no-underline hover:bg-neutral-700 w-full text-left"
-                    onClick={() => signOut()}
-                  >
-                    Sair
-                  </Disclosure.Button>
+                  <NavLinkMobile pathRouter={path} linkPath="/perfil" label="Perfil" />
+                  <NavLinkMobile pathRouter={path} linkPath="/perfil" label="Sair" />
                 </>
               </div>
             </div>

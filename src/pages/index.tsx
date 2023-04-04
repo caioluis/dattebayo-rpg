@@ -1,16 +1,36 @@
 import Image from "next/image";
 import { type NextPage } from "next";
-import { RedirectToSignIn, SignedIn, SignedOut, useUser } from "@clerk/nextjs";
+import { RedirectToSignIn, SignedIn, useUser } from "@clerk/nextjs";
 
 import Layout from "../components/Layout";
 
 import { Loading } from "../components/navigation";
-import { Container, NarrowContainer } from "../components/layout/index";
+import { Background, Container, NarrowContainer } from "../components/layout/index";
 import { Mural, RegrasETutoriais } from "../components/pageSections/index";
 import { CallToCreateCharacter } from "../components/pageSections/CallToCreateCharacter";
+import { trpc } from "../utils/trpc";
+import { useEffect } from "react";
 
 const Home: NextPage = () => {
   const { user, isLoaded } = useUser();
+
+  const { mutate: updateUserMetadata, error } = trpc.user.updateUserMetadata.useMutation();
+
+  // when we know for sure that the user is logged in, we add metadata to the user object
+  // this is a workaround for the fact that the user object is not updated when the user is logged in
+  // so we have to check if the user has anything at publicMetadata
+  useEffect(() => {
+    if (user && Object.keys(user.publicMetadata).length === 0) {
+      updateUserMetadata({
+        id: user.id,
+        rank: "Genin",
+        cargos: "player"
+      });
+      if (error) {
+        console.log(error);
+      }
+    }
+  }, [updateUserMetadata, user, error]);
 
   if (!isLoaded) {
     return (
@@ -19,31 +39,18 @@ const Home: NextPage = () => {
       </div>
     );
   }
+  if (!user && isLoaded) return <RedirectToSignIn />;
 
-  const userHasCharacter = Boolean(user?.publicMetadata.currentCharacter);
+  const userHasCharacter = Boolean(user?.publicMetadata.currentCharacterId);
 
   return (
     <>
-      <SignedOut>
-        <RedirectToSignIn />
-      </SignedOut>
       <SignedIn>
         <Layout user={user}>
-          <div className="fixed z-[-1] h-screen w-screen">
-            <Image
-              src="https://i.imgur.com/hkj0kMn.jpg"
-              fill={true}
-              className="aspect-w-16 aspect-h-9 object-cover"
-              alt="Background"
-              style={{
-                WebkitMaskImage:
-                  "-webkit-gradient(linear, left top, left bottom, from(rgba(0,0,0,0)), to(rgba(0,0,0,0.2)))"
-              }}
-            />
-          </div>
+          <Background src="/main-wallpaper.jpg" />
           <Container>
             <NarrowContainer>
-              <>{!userHasCharacter && <CallToCreateCharacter userId={user?.id} />}</>
+              <>{!userHasCharacter && <CallToCreateCharacter userId={user.id} />}</>
               <Mural />
               <RegrasETutoriais />
             </NarrowContainer>
