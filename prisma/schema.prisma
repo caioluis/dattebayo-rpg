@@ -90,14 +90,12 @@ model Character {
 }
 
 model Village {
-  id                Int     @id @default(autoincrement()) @db.TinyInt
-  name              String  @db.VarChar(70)
-  kageId            Int?    @db.SmallInt
-  cardPhoto         String?
-  numberOfNinjas    Int     @default(0) @db.SmallInt
-  maxNumberOfNinjas Int     @db.SmallInt
-  portugueseName    String  @default("Vila Oculta da ") @db.VarChar(100)
-  wallpaper         String?
+  id                Int    @id @default(autoincrement()) @db.TinyInt
+  name              String @db.VarChar(70)
+  kageId            Int?   @db.SmallInt
+  numberOfNinjas    Int    @default(0) @db.SmallInt
+  maxNumberOfNinjas Int    @db.SmallInt
+  portugueseName    String @default("Vila Oculta da ") @db.VarChar(100)
 
   ninjas Character[]
 

@@ -1,4 +1,5 @@
 import { FooterSocialLinksOnly } from "./FooterSocialLinksOnly";
 import { Mural } from "./Mural";
 import { RegrasETutoriais } from "./RegrasETutoriais";
-export { FooterSocialLinksOnly, Mural, RegrasETutoriais };
+import { Unauthorized } from "./Unauthorized";
+export { FooterSocialLinksOnly, Mural, RegrasETutoriais, Unauthorized };

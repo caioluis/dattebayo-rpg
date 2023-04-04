@@ -4,19 +4,29 @@ import { useRouter } from "next/router";
 import { trpc } from "../../utils/trpc";
 import type { UserResource } from "@clerk/types";
 
-export const CallToCreateCharacter = ({ userId }: { userId: UserResource["id"] | undefined }) => {
+export const CallToCreateCharacter = ({ userId }: { userId: UserResource["id"] }) => {
   const router = useRouter();
 
   const createCharacterMutation = trpc.character.createCharacter.useMutation();
+  const { mutate: updateUserMetadata, error } = trpc.user.updateUserMetadata.useMutation();
 
-  const handleCharacterCreation = async (userId: UserResource["id"] | undefined) => {
-    if (!userId) return;
+  const handleCharacterCreation = async (userId: UserResource["id"]) => {
     await createCharacterMutation.mutateAsync(
       {
         userId
       },
       {
-        onSuccess: () => router.push(`/criar-ficha/`),
+        onSuccess: (characterId) => {
+          updateUserMetadata({
+            id: userId,
+            currentCharacterId: characterId,
+            maxNumberOfCharacters: 0
+          });
+          if (error) {
+            return alert(error);
+          }
+          router.push(`/criar-ficha/`);
+        },
         onError: (error) => alert(error)
       }
     );
