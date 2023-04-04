@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { type NextPage } from "next";
 import { RedirectToSignIn, SignedIn, useUser } from "@clerk/nextjs";
 

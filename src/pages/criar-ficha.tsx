@@ -1,4 +1,3 @@
-import Image from "next/image";
 import type { NextPage } from "next";
 
 import { useEffect } from "react";
@@ -6,12 +5,10 @@ import { useEffect } from "react";
 import Layout from "../components/Layout";
 import ChooseYourVillage from "../components/criar-ficha/ChooseVillage";
 import RandomPage from "../components/criar-ficha/RandomComponent";
-import { Container } from "../components/layout/index";
 import { Loading } from "../components/navigation";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import { RedirectToSignIn, useUser } from "@clerk/nextjs";
 import Background from "../components/layout/Background";
-import NarrowContainer from "../components/layout/NarrowContainer";
 
 const CreationViews = {
   1: ChooseYourVillage,
