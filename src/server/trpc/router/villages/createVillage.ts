@@ -11,9 +11,9 @@ export const createVillage = {
         portugueseName: z.string()
       })
     )
-    .mutation(({ input, ctx }) => {
+    .mutation(async ({ input, ctx }) => {
       try {
-        return ctx.prisma.village.create({
+        return await ctx.prisma.village.create({
           data: {
             name: input.name,
             portugueseName: input.portugueseName,
