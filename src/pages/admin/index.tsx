@@ -8,7 +8,7 @@ import { Container, NarrowContainer } from "../../components/layout/index";
 import { Unauthorized } from "../../components/pageSections/index";
 
 import Background from "../../components/layout/Background";
-import PainelAdmin from "../../components/forms/TwoColumn";
+import PainelAdmin from "../../components/admin/PainelAdmin";
 
 const AdminPanel: NextPage = () => {
   const { user, isLoaded } = useUser();
