@@ -22,6 +22,12 @@ export const VillagePanel = ({
     kiri: false
   };
 
+  const lazyColors = {
+    0: "#a95f3a69",
+    1: "#7f634057",
+    2: "#34547c78"
+  };
+
   const variants = {
     open: { opacity: 1, y: 0 },
     closed: { opacity: 0, y: "150%" }
@@ -29,7 +35,16 @@ export const VillagePanel = ({
 
   const villageHeaderVariants = {
     open: { opacity: 1, y: "50%" },
-    closed: { opacity: 1, y: 0 }
+    closed: { opacity: 1, y: 0 },
+    loading: {
+      opacity: 0
+    },
+    loaded: {
+      opacity: 1,
+      transition: {
+        delay: 1
+      }
+    }
   };
 
   const lowerCaseShortName = shortName.toLowerCase();
@@ -42,12 +57,17 @@ export const VillagePanel = ({
       shortName={lowerCaseShortName}
       villageChangeObject={villageChangeObject}
     >
-      <div className="absolute w-full h-full">
+      <div
+        className="absolute w-full h-full"
+        style={{
+          backgroundColor: lazyColors[villageId - 1]
+        }}
+      >
         <motion.img
           initial={{ opacity: 0 }}
           animate={{ opacity: villagesLoaded ? 0 : 1 }}
           transition={{ delay: 0.5, duration: 0.4 }}
-          src={`villages/${shortName}/wallpaper.jpg`}
+          src={`villages/${lowerCaseShortName}/wallpaper.jpg`}
           className="w-full h-full object-cover"
           draggable="false"
         />
@@ -59,6 +79,7 @@ export const VillagePanel = ({
         shortName={shortName}
         portugueseName={portugueseName}
         open={open}
+        villagesLoaded={villagesLoaded}
       />
       <VillageAction
         open={open}
