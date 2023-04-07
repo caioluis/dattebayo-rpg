@@ -16,6 +16,7 @@ export default function Layout({
         <title>Dattebayo!</title>
         <meta name="description" content="O melhor RPG de Naruto da história!" />
         <link rel="icon" href="/favicon.ico" />
+        <html lang="pt-br" />
       </Head>
       <Navbar user={user} />
       {children}
