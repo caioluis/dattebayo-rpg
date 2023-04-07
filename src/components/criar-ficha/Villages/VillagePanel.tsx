@@ -1,4 +1,5 @@
-import { VillageAction, VillageHeader, VillageImageButton } from ".";
+import { VillageAction, VillageHeader, VillageButton } from ".";
+import { motion } from "framer-motion";
 
 export const VillagePanel = ({
   open,
@@ -12,7 +13,8 @@ export const VillagePanel = ({
   isJoiningNewVillage,
   numberOfVacantSpots,
   characterId,
-  characterVillage
+  characterVillage,
+  villagesLoaded
 }: VillagePanelProps) => {
   const villageChangeObject = {
     konoha: false,
@@ -30,10 +32,27 @@ export const VillagePanel = ({
     closed: { opacity: 1, y: 0 }
   };
 
-  villageChangeObject[shortName] = true;
+  const lowerCaseShortName = shortName.toLowerCase();
+  villageChangeObject[lowerCaseShortName] = true;
 
   return (
-    <VillageImageButton open={open} setOpen={setOpen} shortName={shortName} villageChangeObject={villageChangeObject}>
+    <VillageButton
+      open={open}
+      setOpen={setOpen}
+      shortName={lowerCaseShortName}
+      villageChangeObject={villageChangeObject}
+    >
+      <div className="absolute w-full h-full">
+        <motion.img
+          initial={{ opacity: 0 }}
+          animate={{ opacity: villagesLoaded ? 0 : 1 }}
+          transition={{ delay: 0.5, duration: 0.4 }}
+          src={`villages/${shortName}/wallpaper.jpg`}
+          className="w-full h-full object-cover"
+          draggable="false"
+        />
+      </div>
+
       <VillageHeader
         villageHeaderVariants={villageHeaderVariants}
         numberOfVacantSpots={numberOfVacantSpots}
@@ -54,6 +73,6 @@ export const VillagePanel = ({
         hasVacantSpots={hasVacantSpots}
         characterId={characterId}
       />
-    </VillageImageButton>
+    </VillageButton>
   );
 };

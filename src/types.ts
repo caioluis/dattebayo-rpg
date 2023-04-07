@@ -49,7 +49,7 @@ declare global {
     setOpen: React.Dispatch<React.SetStateAction<VillageAnimationProps>>;
   }
 
-  interface VillageImageButtonProps {
+  interface VillageButtonProps {
     shortName: string;
     villageChangeObject: {
       konoha: boolean;
@@ -61,6 +61,7 @@ declare global {
     setOpen: React.Dispatch<React.SetStateAction<VillageAnimationProps>>;
   }
   interface VillagePanelProps {
+    villagesLoaded: boolean;
     userId: string;
     characterId: number;
     villageId: number;

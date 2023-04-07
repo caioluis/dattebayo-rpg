@@ -4,7 +4,7 @@ import { Register } from "../../components/Register";
 const Entrar: NextPage = () => {
   return (
     <>
-      <Register />;
+      <Register />
     </>
   );
 };

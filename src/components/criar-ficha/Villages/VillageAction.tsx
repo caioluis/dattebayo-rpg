@@ -34,20 +34,31 @@ export const VillageAction = ({
     }
   };
 
+  const lowerCaseShortName = shortName.toLowerCase();
+  console.log("initial open: ", open);
+
   return (
-    <motion.div className="flex flex-row w-full" variants={variants} animate={open[shortName] ? "open" : "closed"}>
+    <motion.div
+      className="flex flex-row w-full"
+      variants={variants}
+      animate={open[lowerCaseShortName] ? "open" : "closed"}
+    >
       <motion.button
         className="bg-red-500 text-white font-bold text-lg 2xl:text-2xl p-1 2xl:p-2 w-1/2"
-        onClick={() => setOpen({ ...open, [shortName]: false })}
+        onClick={() => {
+          setOpen({ ...open, [lowerCaseShortName]: false });
+        }}
+        disabled={!open[lowerCaseShortName]}
       >
         Cancelar
       </motion.button>
       <motion.button
         className="bg-green-600 text-white font-bold text-lg 2xl:text-2xl p-1 2xl:p-2 w-1/2"
         onClick={() => {
-          setOpen({ ...open, [shortName]: false });
+          setOpen({ ...open, [lowerCaseShortName]: false });
           handleJoinVillage();
         }}
+        disabled={!open[lowerCaseShortName]}
       >
         Fazer parte de {shortName}
       </motion.button>

@@ -4,7 +4,7 @@ import { Register } from "../../components/Register";
 const Cadastrar: NextPage = () => {
   return (
     <div>
-      <Register />;
+      <Register />
     </div>
   );
 };

@@ -5,7 +5,6 @@ import type { NextPage } from "next";
 import type { UserResource } from "@clerk/types";
 
 import { trpc } from "../../utils/trpc";
-import { Loading } from "../navigation";
 import { VillagePanel } from "./Villages/VillagePanel";
 
 const ChooseYourVillage: NextPage = ({
@@ -21,7 +20,9 @@ const ChooseYourVillage: NextPage = ({
     kiri: false
   });
 
-  const { data: villagesData } = trpc.village.getAll.useQuery();
+  const [villagesLoaded, setVillagesLoaded] = useState(false);
+
+  const { data: villagesData, status } = trpc.village.getAll.useQuery();
 
   const currentVillage = user.publicMetadata?.currentVillageId;
   const characterId = user.publicMetadata?.currentCharacterId;
@@ -30,24 +31,23 @@ const ChooseYourVillage: NextPage = ({
   const [characterVillage, setCharacterVillage] = useState<number | undefined>(undefined);
 
   useEffect(() => {
+    if (characterId && status) {
+      setVillagesLoaded(false);
+    }
     if (currentVillage) {
       setCharacterVillage(currentVillage);
     }
     setStage(1);
-  }, [currentVillage, setStage]);
-
-  if (!characterId || !villagesData) {
-    return <Loading />;
-  }
+  }, [characterId, currentVillage, setStage, status]);
 
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 3 }}
-      className="flex flex-row items-center justify-center w-full h-full bg-red-100"
+      className="flex flex-row items-center justify-center w-full h-full"
     >
-      {villagesData.map((village) => {
+      {villagesData?.map((village) => {
         const { id: villageId, name, portugueseName, numberOfNinjas, maxNumberOfNinjas } = village;
 
         //  Get the substring from the full japanese name
@@ -62,13 +62,14 @@ const ChooseYourVillage: NextPage = ({
         return (
           <VillagePanel
             key={villageId}
+            villagesLoaded={villagesLoaded}
             open={open}
             userId={userId}
             setOpen={setOpen}
             setStage={setStage}
             shortName={shortName}
             villageId={villageId}
-            characterId={characterId}
+            characterId={characterId as number}
             portugueseName={portugueseName}
             hasVacantSpots={hasVacantSpots}
             characterVillage={characterVillage}
