@@ -63,10 +63,10 @@ export const Navbar = ({ user }: { user: UserResource | null }) => {
               <div className="flex items-center">
                 <div className="flex-shrink-0 flex flex-row items-center gap-2 z-index">
                   <div>
-                    <Image src="/DattebayoLogo.svg" height={32} width={32} alt="Dattebayo!" />
+                    <Image src="/DattebayoLogo.svg" height={32} width={32} alt="Dattebayo!" draggable="false" />
                   </div>
                   <div>
-                    <Image src="/DattebayoNameLogo.svg" height={32} width={180} alt="Dattebayo!" />
+                    <Image src="/DattebayoNameLogo.svg" height={32} width={180} alt="Dattebayo!" draggable="false" />
                   </div>
                 </div>
                 <div className="hidden sm:block sm:ml-6">
@@ -87,7 +87,7 @@ export const Navbar = ({ user }: { user: UserResource | null }) => {
                       <Menu.Button className="bg-neutral-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-neutral-800 focus:ring-white">
                         <span className="sr-only">Abrir menu</span>
                         <div className="w-8 h-8">
-                          <Image className="rounded-full" src={userImage} fill alt="Foto de perfil" />
+                          <Image className="rounded-full" src={userImage} fill alt="Foto de perfil" draggable="false" />
                         </div>
                       </Menu.Button>
                     </div>
@@ -156,7 +156,7 @@ export const Navbar = ({ user }: { user: UserResource | null }) => {
               <div className="flex items-center px-5">
                 <div className="flex-shrink-0">
                   <div className="relative w-8 h-8">
-                    <Image className="rounded-full" fill src={userImage} alt="Foto de perfil" />
+                    <Image className="rounded-full" fill src={userImage} alt="Foto de perfil" draggable="false" />
                   </div>
                 </div>
                 <div className="ml-3">

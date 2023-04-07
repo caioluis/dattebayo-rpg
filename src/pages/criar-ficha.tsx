@@ -38,7 +38,7 @@ const CriarFicha: NextPage = () => {
 
   return (
     <Layout user={user}>
-      <Background src="/wallpaperFicha.png" />
+      <Background src="/wallpaperFicha.jpg" />
       <CreationStageView user={user} setStage={setStage} />
     </Layout>
   );
