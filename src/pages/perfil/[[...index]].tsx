@@ -1,9 +1,10 @@
 import { useUser, RedirectToSignIn, SignedIn, SignedOut, UserProfile } from "@clerk/nextjs";
 import Layout from "../../components/Layout";
 import { type NextPage } from "next";
-import Image from "next/image";
+
 import { Container, NarrowContainer } from "../../components/layout/index";
 import { Loading } from "../../components/navigation";
+import Background from "../../components/layout/Background";
 
 const Perfil: NextPage = () => {
   const { user, isLoaded } = useUser();
@@ -23,18 +24,7 @@ const Perfil: NextPage = () => {
       </SignedOut>
       <SignedIn>
         <Layout user={user}>
-          <div className="fixed z-[-1] h-screen w-screen">
-            <Image
-              src="https://i.imgur.com/hkj0kMn.jpg"
-              fill={true}
-              className="aspect-w-16 aspect-h-9 object-cover"
-              alt="Background"
-              style={{
-                WebkitMaskImage:
-                  "-webkit-gradient(linear, left top, left bottom, from(rgba(0,0,0,0)), to(rgba(0,0,0,0.2)))"
-              }}
-            />
-          </div>
+          <Background src="/main-wallpaper.jpg" />
           <Container>
             <NarrowContainer>
               <UserProfile
