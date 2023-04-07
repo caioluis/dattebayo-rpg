@@ -47,7 +47,7 @@ export const VillagePanel = ({
           initial={{ opacity: 0 }}
           animate={{ opacity: villagesLoaded ? 0 : 1 }}
           transition={{ delay: 0.5, duration: 0.4 }}
-          src={`villages/${shortName}/wallpaper.jpg`}
+          src={`villages/${lowerCaseShortName}/wallpaper.jpg`}
           className="w-full h-full object-cover"
           draggable="false"
         />
