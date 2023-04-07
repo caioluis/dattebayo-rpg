@@ -6,15 +6,18 @@ export const VillageHeader = ({
   shortName,
   portugueseName,
   numberOfVacantSpots,
-  open
+  open,
+  villagesLoaded
 }: VillageHeaderProps) => {
   const lowerCaseShortName = shortName.toLowerCase();
+
   return (
     <div className="w-full">
       <motion.div
         className="flex flex-row w-full items-center justify-between"
         variants={villageHeaderVariants}
-        animate={open[lowerCaseShortName] ? "closed" : "open"}
+        initial="loading"
+        animate={[open[lowerCaseShortName] ? "closed" : "open", villagesLoaded ? "loaded" : "loading"]}
       >
         <motion.div
           className="flex flex-col items-start ml-5 mb-10"
