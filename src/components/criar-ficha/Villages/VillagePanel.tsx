@@ -65,7 +65,7 @@ export const VillagePanel = ({
       >
         <motion.img
           initial={{ opacity: 0 }}
-          animate={{ opacity: villagesLoaded ? 0 : 1 }}
+          animate={{ opacity: villagesLoaded ? 1 : 0 }}
           transition={{ delay: 0.5, duration: 0.4 }}
           src={`villages/${lowerCaseShortName}/wallpaper.jpg`}
           className="w-full h-full object-cover"

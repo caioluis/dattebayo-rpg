@@ -31,8 +31,8 @@ const ChooseYourVillage: NextPage = ({
   const [characterVillage, setCharacterVillage] = useState<number | undefined>(undefined);
 
   useEffect(() => {
-    if (characterId && status) {
-      setVillagesLoaded(false);
+    if (characterId && status === "success") {
+      setVillagesLoaded(true);
     }
     if (currentVillage) {
       setCharacterVillage(currentVillage);

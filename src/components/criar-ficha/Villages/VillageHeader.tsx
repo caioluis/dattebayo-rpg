@@ -17,7 +17,7 @@ export const VillageHeader = ({
         className="flex flex-row w-full items-center justify-between"
         variants={villageHeaderVariants}
         initial="loading"
-        animate={[open[lowerCaseShortName] ? "closed" : "open", villagesLoaded ? "loading" : "loaded"]}
+        animate={[open[lowerCaseShortName] ? "closed" : "open", villagesLoaded ? "loaded" : "loading"]}
       >
         <motion.div
           className="flex flex-col items-start ml-5 mb-10"
