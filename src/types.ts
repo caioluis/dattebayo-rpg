@@ -23,6 +23,7 @@ declare global {
     shortName: string;
     portugueseName: string;
     numberOfVacantSpots: number;
+    villagesLoaded: boolean;
     open: VillageAnimationProps;
     villageHeaderVariants: Variants | undefined;
   }

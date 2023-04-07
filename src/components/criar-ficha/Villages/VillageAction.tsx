@@ -41,6 +41,7 @@ export const VillageAction = ({
     <motion.div
       className="flex flex-row w-full"
       variants={variants}
+      initial="closed"
       animate={open[lowerCaseShortName] ? "open" : "closed"}
     >
       <motion.button
