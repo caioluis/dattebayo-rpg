@@ -8,7 +8,7 @@ export const Register = () => {
         <div>
           <div className="fixed z-[-1] h-screen w-screen">
             <Image
-              src="/register/background.png"
+              src="/register/background.jpg"
               fill={true}
               className="aspect-w-16 aspect-h-9 object-cover"
               alt="Background"
