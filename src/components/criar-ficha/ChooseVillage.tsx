@@ -45,7 +45,7 @@ const ChooseYourVillage: NextPage = ({
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 3 }}
-      className="flex flex-row items-center justify-center w-full h-full"
+      className="flex flex-row items-center justify-center w-full h-full mb-2"
     >
       {villagesData?.map((village) => {
         const { id: villageId, name, portugueseName, numberOfNinjas, maxNumberOfNinjas } = village;
