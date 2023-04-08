@@ -19,12 +19,11 @@ export const Sections = () => {
 
   const handleSectionCreation = async () => {
     const { title, description, parentSectionId } = sectionInfo;
-    const newSection = createSection({
+    createSection({
       title,
       description,
       parentSectionId
     });
-    console.log(newSection);
   };
 
   return (

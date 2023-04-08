@@ -4,9 +4,9 @@ import { getSection } from "./getSection";
 
 export const sectionRouter = router({
   createSection: createSection.procedure,
-  getAll: protectedProcedure.query(({ ctx }) => {
+  getAll: protectedProcedure.query(async ({ ctx }) => {
     try {
-      return ctx.prisma.section.findMany();
+      return await ctx.prisma.section.findMany();
     } catch (error) {
       console.log(error.message);
     }

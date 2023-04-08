@@ -35,7 +35,6 @@ export const VillageAction = ({
   };
 
   const lowerCaseShortName = shortName.toLowerCase();
-  console.log("initial open: ", open);
 
   return (
     <motion.div
