@@ -34,7 +34,7 @@ export const VillagePanel = ({
   };
 
   const villageHeaderVariants = {
-    open: { opacity: 1, y: "50%" },
+    open: { opacity: 1, y: "30%" },
     closed: { opacity: 1, y: 0 },
     loading: {
       opacity: 0

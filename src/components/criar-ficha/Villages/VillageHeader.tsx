@@ -20,9 +20,9 @@ export const VillageHeader = ({
         animate={[open[lowerCaseShortName] ? "closed" : "open", villagesLoaded ? "loaded" : "loading"]}
       >
         <motion.div
-          className="flex flex-col items-start ml-5 mb-10"
-          initial={{ marginBottom: "2.5rem" }}
-          animate={{ marginBottom: open[lowerCaseShortName] ? "0.75rem" : "2.5rem" }}
+          className="flex flex-col items-start ml-5"
+          initial={{ marginBottom: "0" }}
+          animate={{ marginBottom: open[lowerCaseShortName] ? "0.75rem" : "0" }}
         >
           <h2 className="text-4xl 2xl:text-6xl font-bold capitalize">{shortName}</h2>
           <h2 className="text-xl font-medium text-neutral-400 ml-1 ">{portugueseName}</h2>
@@ -30,8 +30,8 @@ export const VillageHeader = ({
         </motion.div>
         <motion.div
           className="h-[75px] w-[75px] 2xl:h-[100px] 2xl:w-[100px] mr-3"
-          initial={{ marginBottom: "2.5rem" }}
-          animate={{ marginBottom: open[lowerCaseShortName] ? "0.75rem" : "2.5rem" }}
+          initial={{ marginBottom: "0" }}
+          animate={{ marginBottom: open[lowerCaseShortName] ? "0.75rem" : "0" }}
         >
           <VillageLogo village={lowerCaseShortName} />
         </motion.div>
