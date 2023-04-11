@@ -12,7 +12,7 @@ export const updateUserMetadata = {
         currentCharacterId: z.number().optional(),
         characterName: z.string().optional(),
         currentVillageId: z.number().optional(),
-        rank: z.string().optional(),
+        rank: z.number().optional(),
         clan: z.string().optional(),
         avatar: z.string().optional(),
         icon: z.string().optional(),

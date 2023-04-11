@@ -14,10 +14,10 @@ export const VillageAction = ({
   characterId,
   characterVillage
 }: VillageActionProps) => {
-  const { mutate: incrementNumberOfNinjas } = trpc.village.incrementNumberOfNinjas.useMutation();
-  const { mutate: decrementNumberOfNinjas } = trpc.village.decrementNumberOfNinjas.useMutation();
-  const { mutate: updateUserMetadata } = trpc.user.updateUserMetadata.useMutation();
-  const { mutate: updateCharacter } = trpc.character.updateCharacter.useMutation();
+  const { mutate: incrementNumberOfNinjas } = trpc.villages.incrementNumberOfNinjas.useMutation();
+  const { mutate: decrementNumberOfNinjas } = trpc.villages.decrementNumberOfNinjas.useMutation();
+  const { mutate: updateUserMetadata } = trpc.users.updateUserMetadata.useMutation();
+  const { mutate: updateCharacter } = trpc.characters.updateCharacter.useMutation();
 
   const handleJoinVillage = async () => {
     if (isJoiningNewVillage && hasVacantSpots) {

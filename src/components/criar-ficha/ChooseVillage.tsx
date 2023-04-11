@@ -22,7 +22,7 @@ const ChooseYourVillage: NextPage = ({
 
   const [villagesLoaded, setVillagesLoaded] = useState(false);
 
-  const { data: villagesData, status } = trpc.village.getAll.useQuery();
+  const { data: villagesData, status } = trpc.villages.getAll.useQuery();
 
   const currentVillage = user.publicMetadata?.currentVillageId;
   const characterId = user.publicMetadata?.currentCharacterId;

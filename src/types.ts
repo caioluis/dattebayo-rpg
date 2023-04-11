@@ -2,7 +2,7 @@ import type { Variants } from "framer-motion";
 
 declare global {
   interface UserPublicMetadata {
-    rank: string | undefined;
+    rank: number | undefined;
     clan: string | undefined;
     icon: string | undefined;
     cargos: string | undefined;

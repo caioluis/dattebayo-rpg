@@ -66,8 +66,6 @@ model Character {
   name            String?  @db.VarChar(70)
   avatar          String?
   icon            String?
-  villageId       Int      @default(99)
-  rank            String?
   kekkeiGenkai    String?  @db.VarChar(20)
   age             Int?     @db.TinyInt
   height          Int?     @db.TinyInt
@@ -81,28 +79,52 @@ model Character {
   inventory       String?
   createdAt       DateTime @default(now())
 
-  topics        Topic[]
   posts         Post[]
-  CharacterRole CharacterRole[]
+  topics        Topic[]
   baseSkills    BaseSkill[]
+  roles         CharacterOnRoles[]
+  advantages    Advantage[]
+  disadvantages Disadvantage[]
 
-  clanId  Int?    @db.TinyInt
-  Clan    Clan?   @relation(fields: [clanId], references: [id])
-  village Village @relation(fields: [villageId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  rankId Int  @db.TinyInt
+  rank   Rank @relation(fields: [rankId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  Clan   Clan? @relation(fields: [clanId], references: [id])
+  clanId Int?  @db.TinyInt
+
+  village   Village @relation(fields: [villageId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  villageId Int     @default(99)
 
   @@index([userId])
   @@index([villageId])
   @@index([clanId])
+  @@index([rankId])
 }
 
-model CharacterRole {
-  id          Int    @id @default(autoincrement()) @db.TinyInt
-  characterId Int    @db.SmallInt
-  roleName    String @db.VarChar(70)
+model Role {
+  id   Int    @id @default(autoincrement()) @db.TinyInt
+  name String @db.VarChar(70)
 
-  character Character @relation(fields: [characterId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  charactersOnRole CharacterOnRoles[]
+}
 
+model Rank {
+  id   Int    @id @default(autoincrement()) @db.TinyInt
+  name String @db.VarChar(70)
+
+  characters Character[]
+}
+
+model CharacterOnRoles {
+  Character   Character @relation(fields: [characterId], references: [id])
+  characterId Int
+  Role        Role      @relation(fields: [roleId], references: [id])
+  roleId      Int
+  assignedAt  DateTime  @default(now())
+
+  @@id([characterId, roleId])
   @@index([characterId])
+  @@index([roleId])
 }
 
 model Village {
@@ -128,7 +150,9 @@ model Clan {
   description              String?
   longDescription          String?
 
-  ninjas Character[]
+  ninjas            Character[]
+  InitialBaseSkills BaseSkill[] @relation("InitialBaseSkills")
+  BaseSkill         BaseSkill[]
 
   @@index([name])
 }
@@ -141,6 +165,8 @@ model Advantage {
   requirementsDescription String
   points                  Int    @db.TinyInt
 
+  characters Character[]
+
   @@index([name])
 }
 
@@ -150,12 +176,10 @@ model Disadvantage {
   type   String @db.VarChar(70)
   points Int    @db.TinyInt
 
+  characters Character[]
+
   @@index([name])
 }
-
-// model Jutsu {
-
-// }
 
 model BaseSkill {
   id                Int    @id @default(autoincrement()) @db.TinyInt
@@ -169,7 +193,9 @@ model BaseSkill {
   parentBaseSkill    BaseSkill?  @relation("BaseSkillTree", fields: [parentBaseSkillId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   childrenBaseSkills BaseSkill[] @relation("BaseSkillTree")
 
-  characters Character @relation(fields: [id], references: [id], onDelete: NoAction)
+  characters       Character[]
+  clans            Clan[]
+  baseSkillOfClans Clan[]      @relation("InitialBaseSkills")
 
   @@index([name])
   @@index([parentBaseSkillId])

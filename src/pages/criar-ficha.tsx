@@ -10,6 +10,7 @@ import { Loading } from "../components/navigation";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import { RedirectToSignIn, useUser } from "@clerk/nextjs";
 import Background from "../components/layout/Background";
+import { trpc } from "../utils/trpc";
 
 const CreationViews = {
   1: ChooseYourVillage,
@@ -23,6 +24,8 @@ const viewNames = {
 
 const CriarFicha: NextPage = () => {
   const [stage, setStage] = useLocalStorage("characterSheetCreationStage", 1);
+
+  const { refetch } = trpc.villages.getAll.useQuery();
 
   useEffect(() => console.log("Stage changed!"), [stage]);
 
@@ -50,7 +53,13 @@ const CriarFicha: NextPage = () => {
         <ul className="flex justify-center gap-2 w-full ">
           {Object.keys(CreationViews).map((key) => (
             <li key={key}>
-              <button className="relative p-1" onClick={() => setStage(Number(key))}>
+              <button
+                className="relative p-1"
+                onClick={() => {
+                  setStage(Number(key));
+                  refetch();
+                }}
+              >
                 {viewNames[key]}
                 {Number(key) === stage && (
                   <motion.div

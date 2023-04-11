@@ -13,7 +13,7 @@ import { useEffect } from "react";
 const Home: NextPage = () => {
   const { user, isLoaded } = useUser();
 
-  const { mutate: updateUserMetadata, error } = trpc.user.updateUserMetadata.useMutation();
+  const { mutate: updateUserMetadata, error } = trpc.users.updateUserMetadata.useMutation();
 
   // when we know for sure that the user is logged in, we add metadata to the user object
   // this is a workaround for the fact that the user object is not updated when the user is logged in
@@ -22,7 +22,7 @@ const Home: NextPage = () => {
     if (user && Object.keys(user.publicMetadata).length === 0) {
       updateUserMetadata({
         id: user.id,
-        rank: "Genin",
+        rank: 0,
         cargos: "player"
       });
       if (error) {
