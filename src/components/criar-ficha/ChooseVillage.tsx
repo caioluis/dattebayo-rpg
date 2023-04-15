@@ -19,13 +19,18 @@ const ChooseYourVillage: NextPage = ({
     suna: false,
     kiri: false
   });
-
   const [villagesLoaded, setVillagesLoaded] = useState(false);
 
   const { data: villagesData, status } = trpc.villages.getAll.useQuery();
+  const { data: userPublicMetadata } = trpc.users.getUserMetadata.useQuery({ id: user.id });
 
-  const currentVillage = user.publicMetadata?.currentVillageId;
-  const characterId = user.publicMetadata?.currentCharacterId;
+  console.log(userPublicMetadata);
+
+  // filter the last item in villagesData, which is the "no village" village
+  const villages = villagesData?.filter((village) => village.id !== 99);
+
+  const currentVillage = userPublicMetadata?.currentVillageId;
+  const characterId = userPublicMetadata?.currentCharacterId;
   const userId = user.id;
 
   const [characterVillage, setCharacterVillage] = useState<number | undefined>(undefined);
@@ -47,7 +52,7 @@ const ChooseYourVillage: NextPage = ({
       transition={{ duration: 3 }}
       className="flex flex-row items-center justify-center w-full h-full mb-2"
     >
-      {villagesData?.map((village) => {
+      {villages?.map((village) => {
         const { id: villageId, name, portugueseName, numberOfNinjas, maxNumberOfNinjas } = village;
 
         //  Get the substring from the full japanese name

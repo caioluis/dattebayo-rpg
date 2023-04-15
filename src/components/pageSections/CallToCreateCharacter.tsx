@@ -7,8 +7,8 @@ import type { UserResource } from "@clerk/types";
 export const CallToCreateCharacter = ({ userId }: { userId: UserResource["id"] }) => {
   const router = useRouter();
 
-  const createCharacterMutation = trpc.character.createCharacter.useMutation();
-  const { mutate: updateUserMetadata, error } = trpc.user.updateUserMetadata.useMutation();
+  const createCharacterMutation = trpc.characters.createCharacter.useMutation();
+  const { mutate: updateUserMetadata, error } = trpc.users.updateUserMetadata.useMutation();
 
   const handleCharacterCreation = async (userId: UserResource["id"]) => {
     await createCharacterMutation.mutateAsync(
@@ -20,7 +20,9 @@ export const CallToCreateCharacter = ({ userId }: { userId: UserResource["id"] }
           updateUserMetadata({
             id: userId,
             currentCharacterId: characterId,
-            maxNumberOfCharacters: 0
+            maxNumberOfCharacters: 0,
+            rank: 1,
+            currentVillageId: 99
           });
           if (error) {
             return alert(error);
