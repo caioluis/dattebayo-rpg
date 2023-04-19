@@ -107,6 +107,9 @@ model Character {
   hp     Int @default(200) @db.SmallInt
   chakra Int @default(200) @db.SmallInt
 
+  hpExtra     Int @default(0) @db.SmallInt
+  chakraExtra Int @default(0) @db.SmallInt
+
   luck Int @default(0) @db.TinyInt
 
   posts         Post[]
@@ -197,6 +200,8 @@ model Advantage {
   points                  Int     @db.TinyInt
   type                    Int     @db.TinyInt
   requirementsDescription String
+  effects                 String
+  modifiers               Json?
 
   characters Character[]
 
@@ -204,10 +209,12 @@ model Advantage {
 }
 
 model Disadvantage {
-  id     Int    @id @default(autoincrement()) @db.TinyInt
-  name   String @db.VarChar(70)
-  type   String @db.VarChar(70)
-  points Int    @db.TinyInt
+  id        Int    @id @default(autoincrement()) @db.TinyInt
+  name      String @db.VarChar(70)
+  type      String @db.VarChar(70)
+  points    Int    @db.TinyInt
+  effects   String
+  modifiers Json?
 
   characters Character[]
 

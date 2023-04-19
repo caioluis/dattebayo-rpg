@@ -1,6 +1,6 @@
 import { Sections } from "./Sections";
 import { Villages } from "./Villages";
-import { Clans } from "./Clans";
+import { Advantages } from "./Advantages";
 
 const AdminHeader = () => {
   return (
@@ -19,7 +19,7 @@ export default function PainelAdmin() {
       <AdminHeader />
       <Sections />
       <Villages />
-      <Clans />
+      <Advantages />
     </form>
   );
 }
