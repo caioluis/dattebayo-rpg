@@ -69,57 +69,16 @@ const CharacterAndPrimaryAttributes = CharacterBasicInfo.merge(CharacterPrimaryA
 const CharacterAndAttributes = CharacterAndPrimaryAttributes.merge(CharacterSecondaryAttributes);
 const Character = CharacterAndAttributes.merge(CharacterStatus);
 
+type Character = z.infer<typeof Character>;
+
 export const updateCharacter = {
-  procedure: protectedProcedure.input(Character).mutation(async ({ input, ctx }) => {
-    console.log(input);
+  procedure: protectedProcedure.input(Character).mutation(async ({ input, ctx }: { input: Character; ctx }) => {
     return await ctx.prisma.character.update({
       where: {
         id: input.id
       },
       data: {
-        age: input.age || undefined,
-        name: input.name || undefined,
-        icon: input.icon || undefined,
-        story: input.story || undefined,
-        avatar: input.avatar || undefined,
-        clanId: input.clanId || undefined,
-        rankId: input.rankId || undefined,
-        weight: input.weight || undefined,
-        height: input.height || undefined,
-        villageId: input.villageId || undefined,
-        appearance: input.appearance || undefined,
-        personality: input.personality || undefined,
-        photoplayer: input.photoplayer || undefined,
-        kekkeiGenkai: input.kekkeiGenkai || undefined,
-        backgroundStory: input.backgroundStory || undefined,
-        ninjutsu: input.ninjutsu || undefined,
-        genjutsu: input.genjutsu || undefined,
-        taijutsu: input.taijutsu || undefined,
-        stamina: input.stamina || undefined,
-        intelligence: input.intelligence || undefined,
-        strength: input.strength || undefined,
-        speed: input.speed || undefined,
-        handSeals: input.handSeals || undefined,
-        yin: input.yin || undefined,
-        yang: input.yang || undefined,
-        bukijutsu: input.bukijutsu || undefined,
-        combat: input.combat || undefined,
-        shurikenjutsu: input.shurikenjutsu || undefined,
-        fuinjutsu: input.fuinjutsu || undefined,
-        raiton: input.raiton || undefined,
-        futon: input.futon || undefined,
-        doton: input.doton || undefined,
-        suiton: input.suiton || undefined,
-        katon: input.katon || undefined,
-        kekkaijutsu: input.kekkaijutsu || undefined,
-        kyuinjutsu: input.kyuinjutsu || undefined,
-        nagashi: input.nagashi || undefined,
-        kanchi: input.kanchi || undefined,
-        hp: input.hp || undefined,
-        chakra: input.chakra || undefined,
-        hpExtra: input.hpExtra || undefined,
-        chakraExtra: input.chakraExtra || undefined,
-        luck: input.luck || undefined
+        ...input
       }
     });
   })
