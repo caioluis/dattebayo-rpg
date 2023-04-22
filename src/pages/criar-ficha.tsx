@@ -25,11 +25,16 @@ const viewNames = {
 const CriarFicha: NextPage = () => {
   const [stage, setStage] = useLocalStorage("characterSheetCreationStage", 1);
 
-  const { refetch } = trpc.villages.getAll.useQuery();
-
-  useEffect(() => console.log("Stage changed!"), [stage]);
-
   const { user, isLoaded, isSignedIn } = useUser();
+  const { refetch: refetchVillages } = trpc.villages.getAll.useQuery();
+  const { refetch: refetchMetadata } = trpc.users.getUserMetadata.useQuery({ id: user?.id as string });
+
+  useEffect(() => {
+    if (stage === 1) {
+      refetchVillages();
+    }
+    refetchMetadata();
+  }, [stage]);
 
   if (!isLoaded) {
     return (
@@ -57,7 +62,6 @@ const CriarFicha: NextPage = () => {
                 className="relative p-1"
                 onClick={() => {
                   setStage(Number(key));
-                  refetch();
                 }}
               >
                 {viewNames[key]}
