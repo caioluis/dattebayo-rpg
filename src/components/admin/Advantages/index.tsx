@@ -26,7 +26,7 @@ interface AdvantageProps {
   type: number;
   points: number;
   effects: string;
-  requirements: string;
+  requirements: { [key: string]: unknown };
   modifiers: {
     strength: number;
     stamina: number;
@@ -41,6 +41,7 @@ interface AdvantageProps {
   };
   requiresManualApproval: boolean;
   requirementsDescription: string;
+  onlyAsAStarter: boolean;
 }
 
 export const Advantages = () => {
@@ -62,26 +63,39 @@ export const Advantages = () => {
     type: 0,
     points: 0,
     effects: "",
-    requirements: "",
+    requirements: {},
     modifiers: modifiers,
     requiresManualApproval: false,
-    requirementsDescription: ""
+    requirementsDescription: "",
+    onlyAsAStarter: false
   });
 
   const { mutate: createAdvantage } = trpc.advantages.createAdvantage.useMutation();
 
   const handleAdvantageCreation = async () => {
-    const { name, type, points, effects, requirements, modifiers, requiresManualApproval, requirementsDescription } =
-      advantageInfo;
+    const newModifiers = modifiers;
+
+    const {
+      name,
+      type,
+      points,
+      effects,
+      requirements,
+      requiresManualApproval,
+      requirementsDescription,
+      onlyAsAStarter
+    } = advantageInfo;
+
     createAdvantage({
       name,
       type,
       points,
       effects,
       requirements,
-      modifiers,
+      modifiers: newModifiers,
       requiresManualApproval,
-      requirementsDescription
+      requirementsDescription,
+      onlyAsAStarter
     });
   };
 
@@ -162,7 +176,7 @@ export const Advantages = () => {
                 type="text"
                 className="block w-full rounded-md border-0 py-1.5 text-neutral-700 shadow-sm ring-1 ring-inset ring-neutral-300 placeholder:text-neutral-400 focus:ring-2 focus:ring-inset focus:ring-orange-700 sm:text-sm sm:leading-6"
                 onChange={(e) => {
-                  setAdvantageInfo({ ...advantageInfo, requirements: e.target.value });
+                  setAdvantageInfo({ ...advantageInfo, requirements: JSON.parse(e.target.value) });
                 }}
               />
             </div>
@@ -180,6 +194,23 @@ export const Advantages = () => {
                 checked={advantageInfo.requiresManualApproval}
                 onChange={(e) => {
                   setAdvantageInfo({ ...advantageInfo, requiresManualApproval: e.target.checked });
+                }}
+              />
+            </div>
+          </div>
+
+          <div className="sm:col-span-3">
+            <label htmlFor="só-como-inata" className="block text-sm font-medium leading-6 text-neutral-100">
+              Apenas na criação da ficha?
+            </label>
+            <div className="mt-2">
+              <input
+                id="só-como-inata"
+                type="checkbox"
+                className="block w-4 h-4 rounded-md border-0 py-1.5 text-neutral-700 shadow-sm ring-1 ring-inset ring-neutral-300 placeholder:text-neutral-400 focus:ring-2 focus:ring-inset focus:ring-transparent sm:text-sm sm:leading-6"
+                checked={advantageInfo.onlyAsAStarter}
+                onChange={(e) => {
+                  setAdvantageInfo({ ...advantageInfo, onlyAsAStarter: e.target.checked });
                 }}
               />
             </div>
@@ -234,11 +265,11 @@ export const Advantages = () => {
                     name={modifier}
                     type="number"
                     className="block w-16 rounded-md border-0 py-1.5 text-neutral-700 shadow-sm ring-1 ring-inset ring-neutral-300 placeholder:text-neutral-400 focus:ring-2 focus:ring-inset focus:ring-orange-700 sm:text-sm sm:leading-6"
-                    value={modifiers[modifier] || 0}
+                    value={modifiers[modifier]}
                     onChange={(e) => {
                       setModifiers({
                         ...modifiers,
-                        [modifier]: e.target.value
+                        [modifier]: Number(e.target.value)
                       });
                     }}
                   />

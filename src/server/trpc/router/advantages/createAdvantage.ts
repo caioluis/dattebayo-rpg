@@ -12,7 +12,7 @@ export const createAdvantage = {
         requirementsDescription: z.string(),
         requiresManualApproval: z.boolean(),
         effects: z.string(),
-        requirements: z.string(),
+        requirements: z.record(z.any()),
         modifiers: z.object({
           speed: z.number(),
           stamina: z.number(),
@@ -24,13 +24,15 @@ export const createAdvantage = {
           intelligence: z.number(),
           hpExtra: z.number(),
           chakraExtra: z.number()
-        })
+        }),
+        onlyAsAStarter: z.boolean()
       })
     )
     .mutation(({ input, ctx }) => {
       return ctx.prisma.advantage.create({
         data: {
-          ...input
+          ...input,
+          requirements: input.requirements
         }
       });
     })

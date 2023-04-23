@@ -25,7 +25,7 @@ export const getCharacter = {
     )
     .query(async ({ input, ctx }) => {
       return await ctx.prisma.$queryRawUnsafe(
-        `SELECT ${input.attributes.join(", ")} FROM character WHERE id = ${input.id}`
+        `SELECT ${input.attributes.join(", ")} FROM \`Character\` WHERE id = ${input.id};`
       );
     })
 };

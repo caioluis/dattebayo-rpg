@@ -78,6 +78,7 @@ model Character {
   gender          String?  @db.VarChar(40)
   name            String?  @db.VarChar(70)
   createdAt       DateTime @default(now())
+  stage           String   @default("creation") @db.VarChar(20)
 
   ninjutsu     Int @default(0) @db.TinyInt
   genjutsu     Int @default(0) @db.TinyInt
@@ -196,12 +197,13 @@ model Advantage {
   id                      Int     @id @default(autoincrement()) @db.TinyInt
   requiresManualApproval  Boolean @default(false)
   name                    String  @db.VarChar(70)
-  requirements            String  @db.VarChar(64)
+  onlyAsAStarter          Boolean @default(false)
   points                  Int     @db.TinyInt
   type                    Int     @db.TinyInt
   requirementsDescription String  @db.Text
   effects                 String  @db.Text
   modifiers               Json?
+  requirements            Json?
 
   characters Character[]
 
