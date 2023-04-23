@@ -16,7 +16,9 @@ enum Modifiers {
   ninjutsu = "Ninjutsu",
   genjutsu = "Genjutsu",
   taijutsu = "Taijutsu",
-  intelligence = "Inteligência"
+  intelligence = "Inteligência",
+  chakraExtra = "Chakra Extra",
+  hpExtra = "HP Extra"
 }
 
 interface AdvantageProps {
@@ -26,7 +28,16 @@ interface AdvantageProps {
   effects: string;
   requirements: string;
   modifiers: {
-    [key: string]: number;
+    strength: number;
+    stamina: number;
+    handSeals: number;
+    speed: number;
+    ninjutsu: number;
+    genjutsu: number;
+    taijutsu: number;
+    intelligence: number;
+    chakraExtra: number;
+    hpExtra: number;
   };
   requiresManualApproval: boolean;
   requirementsDescription: string;
@@ -41,8 +52,38 @@ export const Advantages = () => {
     genjutsu: 0,
     taijutsu: 0,
     handSeals: 0,
-    intelligence: 0
+    intelligence: 0,
+    chakraExtra: 0,
+    hpExtra: 0
   });
+
+  const [advantageInfo, setAdvantageInfo] = useState<AdvantageProps>({
+    name: "",
+    type: 0,
+    points: 0,
+    effects: "",
+    requirements: "",
+    modifiers: modifiers,
+    requiresManualApproval: false,
+    requirementsDescription: ""
+  });
+
+  const { mutate: createAdvantage } = trpc.advantages.createAdvantage.useMutation();
+
+  const handleAdvantageCreation = async () => {
+    const { name, type, points, effects, requirements, modifiers, requiresManualApproval, requirementsDescription } =
+      advantageInfo;
+    createAdvantage({
+      name,
+      type,
+      points,
+      effects,
+      requirements,
+      modifiers,
+      requiresManualApproval,
+      requirementsDescription
+    });
+  };
 
   return (
     <div className="mt-10 bg-neutral-1000/50 rounded-lg">
@@ -63,6 +104,9 @@ export const Advantages = () => {
                 name="nome-da-vila"
                 id="nome-da-vila"
                 className="block w-full rounded-md border-0 py-1.5 text-neutral-700 shadow-sm ring-1 ring-inset ring-neutral-500 placeholder:text-neutral-400 focus:ring-2 focus:ring-inset focus:ring-orange-700 sm:text-sm sm:leading-6"
+                onChange={(e) => {
+                  setAdvantageInfo({ ...advantageInfo, name: e.target.value });
+                }}
               />
             </div>
           </div>
@@ -76,6 +120,9 @@ export const Advantages = () => {
                 id="tipo-de-vantagem"
                 name="tipo-de-vantagem"
                 className="block w-full rounded-md border-0 py-1.5 text-neutral-700 shadow-sm ring-1 ring-inset ring-neutral-300 placeholder:text-neutral-400 focus:ring-2 focus:ring-inset focus:ring-orange-700 sm:text-sm sm:leading-6"
+                onChange={(e) => {
+                  setAdvantageInfo({ ...advantageInfo, type: Number(e.target.value) });
+                }}
               >
                 <option value={AdvantageType.Especial}>{AdvantageType[0]}</option>
                 <option value={AdvantageType.Física}>{AdvantageType[1]}</option>
@@ -96,7 +143,10 @@ export const Advantages = () => {
                 type="number"
                 min={1}
                 max={3}
-                value={1}
+                value={advantageInfo.points}
+                onChange={(e) => {
+                  setAdvantageInfo({ ...advantageInfo, points: Number(e.target.value) });
+                }}
                 className="block w-14 rounded-md border-0 py-1.5 text-neutral-700 shadow-sm ring-1 ring-inset ring-neutral-300 placeholder:text-neutral-400 focus:ring-2 focus:ring-inset focus:ring-orange-700 sm:text-sm sm:leading-6"
               />
             </div>
@@ -111,6 +161,9 @@ export const Advantages = () => {
                 name="requisitos"
                 type="text"
                 className="block w-full rounded-md border-0 py-1.5 text-neutral-700 shadow-sm ring-1 ring-inset ring-neutral-300 placeholder:text-neutral-400 focus:ring-2 focus:ring-inset focus:ring-orange-700 sm:text-sm sm:leading-6"
+                onChange={(e) => {
+                  setAdvantageInfo({ ...advantageInfo, requirements: e.target.value });
+                }}
               />
             </div>
           </div>
@@ -124,6 +177,10 @@ export const Advantages = () => {
                 id="requisitos-manuais"
                 type="checkbox"
                 className="block w-4 h-4 rounded-md border-0 py-1.5 text-neutral-700 shadow-sm ring-1 ring-inset ring-neutral-300 placeholder:text-neutral-400 focus:ring-2 focus:ring-inset focus:ring-transparent sm:text-sm sm:leading-6"
+                checked={advantageInfo.requiresManualApproval}
+                onChange={(e) => {
+                  setAdvantageInfo({ ...advantageInfo, requiresManualApproval: e.target.checked });
+                }}
               />
             </div>
           </div>
@@ -137,6 +194,10 @@ export const Advantages = () => {
                 id="requisitos"
                 name="requisitos"
                 rows={3}
+                value={advantageInfo.requirementsDescription}
+                onChange={(e) => {
+                  setAdvantageInfo({ ...advantageInfo, requirementsDescription: e.target.value });
+                }}
                 className="block w-full rounded-md border-0 py-1.5 text-neutral-700 shadow-sm ring-1 ring-inset ring-neutral-300 placeholder:text-neutral-400 focus:ring-2 focus:ring-inset focus:ring-orange-700 sm:text-sm sm:leading-6"
               />
             </div>
@@ -151,6 +212,10 @@ export const Advantages = () => {
                 id="efeitos"
                 name="efeitos"
                 rows={3}
+                value={advantageInfo.effects}
+                onChange={(e) => {
+                  setAdvantageInfo({ ...advantageInfo, effects: e.target.value });
+                }}
                 className="block w-full rounded-md border-0 py-1.5 text-neutral-700 shadow-sm ring-1 ring-inset ring-neutral-300 placeholder:text-neutral-400 focus:ring-2 focus:ring-inset focus:ring-orange-700 sm:text-sm sm:leading-6"
               />
             </div>
@@ -168,7 +233,7 @@ export const Advantages = () => {
                     id={modifier}
                     name={modifier}
                     type="number"
-                    className="block w-14 rounded-md border-0 py-1.5 text-neutral-700 shadow-sm ring-1 ring-inset ring-neutral-300 placeholder:text-neutral-400 focus:ring-2 focus:ring-inset focus:ring-orange-700 sm:text-sm sm:leading-6"
+                    className="block w-16 rounded-md border-0 py-1.5 text-neutral-700 shadow-sm ring-1 ring-inset ring-neutral-300 placeholder:text-neutral-400 focus:ring-2 focus:ring-inset focus:ring-orange-700 sm:text-sm sm:leading-6"
                     value={modifiers[modifier] || 0}
                     onChange={(e) => {
                       setModifiers({
@@ -185,7 +250,10 @@ export const Advantages = () => {
       </div>
       <div className="flex items-center justify-end gap-x-6 pb-5 pr-4">
         <button className="text-sm font-semibold leading-6 ">Limpar campos</button>
-        <button className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+        <button
+          onClick={handleAdvantageCreation}
+          className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+        >
           Criar Vantagem
         </button>
       </div>

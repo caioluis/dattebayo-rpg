@@ -196,11 +196,11 @@ model Advantage {
   id                      Int     @id @default(autoincrement()) @db.TinyInt
   requiresManualApproval  Boolean @default(false)
   name                    String  @db.VarChar(70)
-  requirements            String  @db.VarChar(32)
+  requirements            String  @db.VarChar(64)
   points                  Int     @db.TinyInt
   type                    Int     @db.TinyInt
-  requirementsDescription String
-  effects                 String
+  requirementsDescription String  @db.Text
+  effects                 String  @db.Text
   modifiers               Json?
 
   characters Character[]

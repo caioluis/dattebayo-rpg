@@ -81,7 +81,7 @@ export const Sections = () => {
                 value={sectionInfo.parentSectionId?.toString()}
                 onChange={(e) => setSectionInfo({ ...sectionInfo, parentSectionId: Number(e.target.value) })}
               >
-                <option></option>
+                <option value=""></option>
                 {allSections?.map((section) => {
                   if (section.parentSectionId === null) {
                     return (
