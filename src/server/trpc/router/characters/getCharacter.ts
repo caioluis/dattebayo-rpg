@@ -15,5 +15,17 @@ export const getCharacter = {
           id: input.id
         }
       });
+    }),
+  getSpecificAttributes: protectedProcedure
+    .input(
+      z.object({
+        id: z.number(),
+        attributes: z.array(z.string())
+      })
+    )
+    .query(async ({ input, ctx }) => {
+      return await ctx.prisma.$queryRawUnsafe(
+        `SELECT ${input.attributes.join(", ")} FROM \`Character\` WHERE id = ${input.id};`
+      );
     })
 };

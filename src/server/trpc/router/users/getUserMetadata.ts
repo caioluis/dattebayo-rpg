@@ -12,7 +12,8 @@ export const getUserMetadata = {
     )
     .query(async ({ input }) => {
       try {
-        return await clerkClient.users.getUser(input.id);
+        const user = await clerkClient.users.getUser(input.id);
+        return user.publicMetadata;
       } catch (error) {
         return error;
       }

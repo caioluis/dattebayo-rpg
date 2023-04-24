@@ -14,7 +14,7 @@ export const Villages = () => {
     maxNumberOfNinjas: 5
   });
 
-  const { mutate: createVillage } = trpc.village.createVillage.useMutation();
+  const { mutate: createVillage } = trpc.villages.createVillage.useMutation();
 
   const handleVillageCreation = async () => {
     const { name, portugueseName, maxNumberOfNinjas } = villageInfo;

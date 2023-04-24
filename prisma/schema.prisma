@@ -63,46 +63,104 @@ model Post {
 model Character {
   id              Int      @id @default(autoincrement())
   userId          String   @unique
-  name            String?  @db.VarChar(70)
   avatar          String?
   icon            String?
-  villageId       Int      @default(99)
-  rank            String?
-  kekkeiGenkai    String?  @db.VarChar(20)
+  inventory       String?
+  photoplayer     String?
+  personality     String?  @db.Text
+  appearance      String?  @db.Text
+  backgroundStory String?  @db.Text
+  story           String?  @db.Text
   age             Int?     @db.TinyInt
   height          Int?     @db.TinyInt
   weight          Int?     @db.TinyInt
+  kekkeiGenkai    String?  @db.VarChar(20)
   gender          String?  @db.VarChar(40)
-  personality     String?  @db.Text
-  appearance      String?  @db.Text
-  photoplayer     String?
-  backgroundStory String?  @db.Text
-  story           String?  @db.Text
-  inventory       String?
+  name            String?  @db.VarChar(70)
   createdAt       DateTime @default(now())
+  stage           String   @default("creation") @db.VarChar(20)
 
-  topics        Topic[]
+  ninjutsu     Int @default(0) @db.TinyInt
+  genjutsu     Int @default(0) @db.TinyInt
+  taijutsu     Int @default(0) @db.TinyInt
+  stamina      Int @default(1) @db.TinyInt
+  strength     Int @default(0) @db.TinyInt
+  speed        Int @default(0) @db.TinyInt
+  intelligence Int @default(0) @db.TinyInt
+  handSeals    Int @default(0) @db.TinyInt
+
+  yin           Int @default(0) @db.TinyInt
+  yang          Int @default(0) @db.TinyInt
+  bukijutsu     Int @default(0) @db.TinyInt
+  combat        Int @default(0) @db.TinyInt
+  shurikenjutsu Int @default(0) @db.TinyInt
+  fuinjutsu     Int @default(0) @db.TinyInt
+  raiton        Int @default(0) @db.TinyInt
+  futon         Int @default(0) @db.TinyInt
+  doton         Int @default(0) @db.TinyInt
+  suiton        Int @default(0) @db.TinyInt
+  katon         Int @default(0) @db.TinyInt
+  kekkaijutsu   Int @default(0) @db.TinyInt
+  kyuinjutsu    Int @default(0) @db.TinyInt
+  nagashi       Int @default(0) @db.TinyInt
+  kanchi        Int @default(0) @db.TinyInt
+
+  hp     Int @default(200) @db.SmallInt
+  chakra Int @default(200) @db.SmallInt
+
+  hpExtra     Int @default(0) @db.SmallInt
+  chakraExtra Int @default(0) @db.SmallInt
+
+  luck Int @default(0) @db.TinyInt
+
   posts         Post[]
-  CharacterRole CharacterRole[]
+  topics        Topic[]
   baseSkills    BaseSkill[]
+  advantages    Advantage[]
+  disadvantages Disadvantage[]
+  roles         CharacterOnRoles[]
 
-  clanId  Int?    @db.TinyInt
-  Clan    Clan?   @relation(fields: [clanId], references: [id])
-  village Village @relation(fields: [villageId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  rankId Int  @default(1) @db.TinyInt
+  rank   Rank @relation(fields: [rankId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  clanId Int?  @db.TinyInt
+  Clan   Clan? @relation(fields: [clanId], references: [id])
+
+  villageId Int     @default(99)
+  village   Village @relation(fields: [villageId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   @@index([userId])
   @@index([villageId])
   @@index([clanId])
+  @@index([rankId])
 }
 
-model CharacterRole {
-  id          Int    @id @default(autoincrement()) @db.TinyInt
-  characterId Int    @db.SmallInt
-  roleName    String @db.VarChar(70)
+model Role {
+  id   Int    @id @default(autoincrement()) @db.TinyInt
+  name String @db.VarChar(70)
 
-  character Character @relation(fields: [characterId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  charactersOnRole CharacterOnRoles[]
+}
 
+model Rank {
+  id   Int    @id @default(autoincrement()) @db.TinyInt
+  name String @db.VarChar(70)
+
+  characters Character[]
+}
+
+model CharacterOnRoles {
+  characterId Int
+  Character   Character @relation(fields: [characterId], references: [id])
+
+  roleId Int
+  Role   Role @relation(fields: [roleId], references: [id])
+
+  assignedAt DateTime @default(now())
+
+  @@id([characterId, roleId])
   @@index([characterId])
+  @@index([roleId])
 }
 
 model Village {
@@ -128,34 +186,42 @@ model Clan {
   description              String?
   longDescription          String?
 
-  ninjas Character[]
+  ninjas            Character[]
+  InitialBaseSkills BaseSkill[] @relation("InitialBaseSkills")
+  BaseSkill         BaseSkill[]
 
   @@index([name])
 }
 
 model Advantage {
-  id                      Int    @id @default(autoincrement()) @db.TinyInt
-  name                    String @db.VarChar(70)
-  type                    String @db.VarChar(70)
-  requirements            String @db.VarChar(70)
-  requirementsDescription String
-  points                  Int    @db.TinyInt
+  id                      Int     @id @default(autoincrement()) @db.TinyInt
+  requiresManualApproval  Boolean @default(false)
+  name                    String  @db.VarChar(70)
+  onlyAsAStarter          Boolean @default(false)
+  points                  Int     @db.TinyInt
+  type                    Int     @db.TinyInt
+  requirementsDescription String  @db.Text
+  effects                 String  @db.Text
+  modifiers               Json?
+  requirements            Json?
+
+  characters Character[]
 
   @@index([name])
 }
 
 model Disadvantage {
-  id     Int    @id @default(autoincrement()) @db.TinyInt
-  name   String @db.VarChar(70)
-  type   String @db.VarChar(70)
-  points Int    @db.TinyInt
+  id        Int    @id @default(autoincrement()) @db.TinyInt
+  name      String @db.VarChar(70)
+  type      String @db.VarChar(70)
+  points    Int    @db.TinyInt
+  effects   String
+  modifiers Json?
+
+  characters Character[]
 
   @@index([name])
 }
-
-// model Jutsu {
-
-// }
 
 model BaseSkill {
   id                Int    @id @default(autoincrement()) @db.TinyInt
@@ -169,7 +235,9 @@ model BaseSkill {
   parentBaseSkill    BaseSkill?  @relation("BaseSkillTree", fields: [parentBaseSkillId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   childrenBaseSkills BaseSkill[] @relation("BaseSkillTree")
 
-  characters Character @relation(fields: [id], references: [id], onDelete: NoAction)
+  characters       Character[]
+  clans            Clan[]
+  baseSkillOfClans Clan[]      @relation("InitialBaseSkills")
 
   @@index([name])
   @@index([parentBaseSkillId])

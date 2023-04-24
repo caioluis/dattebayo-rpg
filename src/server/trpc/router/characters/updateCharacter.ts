@@ -1,50 +1,85 @@
 import { z } from "zod";
 import { protectedProcedure } from "../../trpc";
 
+const CharacterBasicInfo = z
+  .object({
+    id: z.number(),
+    age: z.number(),
+    name: z.string(),
+    icon: z.string(),
+    story: z.string(),
+    avatar: z.string(),
+    clanId: z.number(),
+    rankId: z.number(),
+    weight: z.number(),
+    height: z.number(),
+    villageId: z.number(),
+    appearance: z.string(),
+    personality: z.string(),
+    photoplayer: z.string(),
+    kekkeiGenkai: z.string(),
+    backgroundStory: z.string()
+  })
+  .partial();
+
+const CharacterPrimaryAttributes = z
+  .object({
+    ninjutsu: z.number(),
+    genjutsu: z.number(),
+    taijutsu: z.number(),
+    stamina: z.number(),
+    intelligence: z.number(),
+    strength: z.number(),
+    speed: z.number(),
+    handSeals: z.number()
+  })
+  .partial();
+
+const CharacterSecondaryAttributes = z
+  .object({
+    yin: z.number(),
+    yang: z.number(),
+    bukijutsu: z.number(),
+    combat: z.number(),
+    shurikenjutsu: z.number(),
+    fuinjutsu: z.number(),
+    raiton: z.number(),
+    futon: z.number(),
+    doton: z.number(),
+    suiton: z.number(),
+    katon: z.number(),
+    kekkaijutsu: z.number(),
+    kyuinjutsu: z.number(),
+    nagashi: z.number(),
+    kanchi: z.number()
+  })
+  .partial();
+
+const CharacterStatus = z
+  .object({
+    hp: z.number(),
+    chakra: z.number(),
+    hpExtra: z.number(),
+    chakraExtra: z.number(),
+    luck: z.number()
+  })
+  .partial();
+
+const CharacterAndPrimaryAttributes = CharacterBasicInfo.merge(CharacterPrimaryAttributes);
+const CharacterAndAttributes = CharacterAndPrimaryAttributes.merge(CharacterSecondaryAttributes);
+const Character = CharacterAndAttributes.merge(CharacterStatus);
+
+type Character = z.infer<typeof Character>;
+
 export const updateCharacter = {
-  procedure: protectedProcedure
-    .input(
-      z.object({
-        id: z.number(),
-        name: z.string().optional(),
-        avatar: z.string().optional(),
-        icon: z.string().optional(),
-        villageId: z.number().optional(),
-        clanId: z.number().optional(),
-        rank: z.string().optional(),
-        kekkeiGenkai: z.string().optional(),
-        age: z.number().optional(),
-        height: z.number().optional(),
-        weight: z.number().optional(),
-        personality: z.string().optional(),
-        appearance: z.string().optional(),
-        photoplayer: z.string().optional(),
-        backgroundStory: z.string().optional(),
-        story: z.string().optional()
-      })
-    )
-    .mutation(async ({ input, ctx }) => {
-      return await ctx.prisma.character.update({
-        where: {
-          id: input.id
-        },
-        data: {
-          name: input.name || undefined,
-          avatar: input.avatar || undefined,
-          icon: input.icon || undefined,
-          villageId: input.villageId || undefined,
-          clanId: input.clanId || undefined,
-          rank: input.rank || undefined,
-          kekkeiGenkai: input.kekkeiGenkai || undefined,
-          age: input.age || undefined,
-          height: input.height || undefined,
-          weight: input.weight || undefined,
-          personality: input.personality || undefined,
-          appearance: input.appearance || undefined,
-          photoplayer: input.photoplayer || undefined,
-          backgroundStory: input.backgroundStory || undefined,
-          story: input.story || undefined
-        }
-      });
-    })
+  procedure: protectedProcedure.input(Character).mutation(async ({ input, ctx }: { input: Character; ctx }) => {
+    return await ctx.prisma.character.update({
+      where: {
+        id: input.id
+      },
+      data: {
+        ...input
+      }
+    });
+  })
 };

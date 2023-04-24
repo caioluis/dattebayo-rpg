@@ -10,6 +10,7 @@ import { Loading } from "../components/navigation";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import { RedirectToSignIn, useUser } from "@clerk/nextjs";
 import Background from "../components/layout/Background";
+import { trpc } from "../utils/trpc";
 
 const CreationViews = {
   1: ChooseYourVillage,
@@ -24,9 +25,16 @@ const viewNames = {
 const CriarFicha: NextPage = () => {
   const [stage, setStage] = useLocalStorage("characterSheetCreationStage", 1);
 
-  useEffect(() => console.log("Stage changed!"), [stage]);
-
   const { user, isLoaded, isSignedIn } = useUser();
+  const { refetch: refetchVillages } = trpc.villages.getAll.useQuery();
+  const { refetch: refetchMetadata } = trpc.users.getUserMetadata.useQuery({ id: user?.id as string });
+
+  useEffect(() => {
+    if (stage === 1) {
+      refetchVillages();
+    }
+    refetchMetadata();
+  }, [stage]);
 
   if (!isLoaded) {
     return (
@@ -50,7 +58,12 @@ const CriarFicha: NextPage = () => {
         <ul className="flex justify-center gap-2 w-full ">
           {Object.keys(CreationViews).map((key) => (
             <li key={key}>
-              <button className="relative p-1" onClick={() => setStage(Number(key))}>
+              <button
+                className="relative p-1"
+                onClick={() => {
+                  setStage(Number(key));
+                }}
+              >
                 {viewNames[key]}
                 {Number(key) === stage && (
                   <motion.div
