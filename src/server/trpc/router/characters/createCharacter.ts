@@ -33,8 +33,7 @@ export const createCharacter = {
 
       const character = await ctx.prisma.character.create({
         data: {
-          userId: input.userId,
-          rankId: 1
+          userId: input.userId
         },
         select: {
           id: true
